@@ -1,88 +1,175 @@
 // import * as XLSX from "js/xlsx.full.min.js";
-// 柱状图模块1
+
+// 尝试利用矩形树图展示不同美食的基本情况
 (function() {
   // 1实例化对象
   var myChart = echarts.init(document.querySelector(".bar .chart"));
+  
+  // 随机获取一个指定长度的数组
+  function getRandomSubarray(arr, size) {
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
+    while (i--) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(0, size);
+  }
+
+  // 统计各个类别的名称和数量 
+  function countCategories (data) {  
+    let categories = new Set();  
+    let categoryCounts = {};
+    
+    if (Array.isArray(data)) {  
+      data.forEach((item) => {  
+        const category = item.category;  
+        categories.add(category);  
+        if (category in categoryCounts) {  
+          categoryCounts[category]++;  
+        } else {  
+          categoryCounts[category] = 1;  
+        }
+      });  
+    } else {  
+      console.error('Invalid data format');  
+    }
+    
+    console.log('Total categories:', categories.size);  
+    
+    let categoryData = [];  // 创建一个空数组
+    for (const category in categoryCounts) {  
+      let obj = {};
+      obj.name = category;
+      obj.value = categoryCounts[category];
+      categoryData.push(obj);
+      // console.log(category + ': ' + categoryCounts[category]);
+    }
+    return categoryData;
+  };
+
+  // 统计各个类别的类别、数量和占比（考虑与上一个函数合并）
+  function getTooltipFormatter(info) {
+    // console.log('运行了getTooltipFormatter函数');
+    let sum = info.length;
+    return function (info) {
+      // console.log('info:', info.name);
+      let category = info.name;
+      let amount = info.value;
+      let ratio = Math.round(info.value / sum * 100, 2);
+      return [
+        '名称: &nbsp;' + category + '<br>' + 
+        '数量: &nbsp;' + amount + '<br>' + 
+        '比例: &nbsp;&nbsp;' + ratio + '%' + '<br>'
+      ].join('');
+    };
+  }
+  
+  var data_test = getRandomSubarray(json, 1000)
+  // var data_test = json
+  var selectedData = data_test.map(function(item) {
+      return {
+          category: item.类别,
+      };
+  });
   // 2. 指定配置项和数据
   var option = {
-    color: ["#2f89cf"],
     tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-      }
+      formatter: getTooltipFormatter(selectedData)
     },
-    // 修改图表的大小
-    grid: {
-      left: "0%",
-      top: "10px",
-      right: "0%",
-      bottom: "4%",
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: "category",
-        data: [
-          "旅游行业",
-          "教育培训",
-          "游戏行业",
-          "医疗行业",
-          "电商行业",
-          "社交行业",
-          "金融行业"
-        ],
-        axisTick: {
-          alignWithLabel: true
-        },
-        // 修改刻度标签 相关样式
-        axisLabel: {
-          color: "rgba(255,255,255,.6) ",
-          fontSize: "12"
-        },
-        // 不显示x坐标轴的样式
-        axisLine: {
-          show: false
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: "value",
-        // 修改刻度标签 相关样式
-        axisLabel: {
-          color: "rgba(255,255,255,.6) ",
-          fontSize: 12
-        },
-        // y轴的线条改为了 2像素
-        axisLine: {
-          lineStyle: {
-            color: "rgba(255,255,255,.1)",
-            width: 2
-          }
-        },
-        // y轴分割线的颜色
-        splitLine: {
-          lineStyle: {
-            color: "rgba(255,255,255,.1)"
-          }
-        }
-      }
-    ],
     series: [
       {
-        name: "直接访问",
-        type: "bar",
-        barWidth: "35%",
-        data: [200, 300, 300, 900, 1500, 1200, 600],
-        itemStyle: {
-          // 修改柱子圆角
-          barBorderRadius: 5
-        }
+        type: 'treemap',
+        // tooltip: {
+        //   formatter: getTooltipFormatter(selectedData),
+        // },
+        label: {
+          position: 'insideTopLeft',
+        },
+        data: countCategories(selectedData),
       }
     ]
   };
+  // var option = {
+  //   color: ["#2f89cf"],
+  //   tooltip: {
+  //     trigger: "axis",
+  //     axisPointer: {
+  //       // 坐标轴指示器，坐标轴触发有效
+  //       type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+  //     }
+  //   },
+  //   // 修改图表的大小
+  //   grid: {
+  //     left: "0%",
+  //     top: "10px",
+  //     right: "0%",
+  //     bottom: "4%",
+  //     containLabel: true
+  //   },
+  //   xAxis: [
+  //     {
+  //       type: "category",
+  //       data: [
+  //         "旅游行业",
+  //         "教育培训",
+  //         "游戏行业",
+  //         "医疗行业",
+  //         "电商行业",
+  //         "社交行业",
+  //         "金融行业"
+  //       ],
+  //       axisTick: {
+  //         alignWithLabel: true
+  //       },
+  //       // 修改刻度标签 相关样式
+  //       axisLabel: {
+  //         color: "rgba(255,255,255,.6) ",
+  //         fontSize: "12"
+  //       },
+  //       // 不显示x坐标轴的样式
+  //       axisLine: {
+  //         show: false
+  //       }
+  //     }
+  //   ],
+  //   yAxis: [
+  //     {
+  //       type: "value",
+  //       // 修改刻度标签 相关样式
+  //       axisLabel: {
+  //         color: "rgba(255,255,255,.6) ",
+  //         fontSize: 12
+  //       },
+  //       // y轴的线条改为了 2像素
+  //       axisLine: {
+  //         lineStyle: {
+  //           color: "rgba(255,255,255,.1)",
+  //           width: 2
+  //         }
+  //       },
+  //       // y轴分割线的颜色
+  //       splitLine: {
+  //         lineStyle: {
+  //           color: "rgba(255,255,255,.1)"
+  //         }
+  //       }
+  //     }
+  //   ],
+  //   series: [
+  //     {
+  //       name: "直接访问",
+  //       type: "bar",
+  //       barWidth: "35%",
+  //       data: [200, 300, 300, 900, 1500, 1200, 600],
+  //       itemStyle: {
+  //         // 修改柱子圆角
+  //         barBorderRadius: 5
+  //       }
+  //     }
+  //   ]
+  // };
   // 3. 把配置项给实例对象
   myChart.setOption(option);
   // 4. 让图表跟随屏幕自动的去适应
@@ -90,6 +177,7 @@
     myChart.resize();
   });
 })();
+
 // 柱状图2
 (function() {
   var myColor = ["#1089E7", "#F57474", "#56D0E3", "#F8B448", "#8B78F6"];
@@ -195,6 +283,7 @@
     myChart.resize();
   });
 })();
+
 // 折线图1模块制作
 (function() {
   var yearData = [
