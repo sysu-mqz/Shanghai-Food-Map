@@ -798,7 +798,6 @@
 })();
 
 (function () {
-    var regionSelect = document.getElementById('region-select');
     myChart = echarts.init(document.querySelector(".map .chart"));
     function getRandomSubarray(arr, size) {
       var shuffled = arr.slice(0), i = arr.length, temp, index;
@@ -917,30 +916,8 @@
     window.addEventListener("resize", function() {
     myChart.resize();
     });
-    window.onload = function ()  {
-      // 在这里注册 change 事件处理函数
-      document.getElementById('region-select').addEventListener('change', function (event) {
-        // 获取用户选择的行政区
-        var selectedRegion = event.target.value;
-
-        // 打印用户选择的行政区
-        console.log('用户选择的行政区：', selectedRegion);
-
-        // 更新地图的选项
-        myChart.setOption({
-          series: [
-            {
-              type: 'effectScatter',
-              coordinateSystem: 'geo',
-              data: regionData[selectedRegion].map(function (item) {
-                return [item.Lng, item.Lat, item.口味, item.行政区];
-              }),
-              symbolSize: 3,
-            }
-          ]
-        });
-      });
-    };
+    
+    console.log(regionData);
 })();
 
 

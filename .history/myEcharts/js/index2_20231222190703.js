@@ -917,7 +917,7 @@
     window.addEventListener("resize", function() {
     myChart.resize();
     });
-    window.onload = function ()  {
+  regionSelect.addEventListener('DOMContentLoaded', function () {
       // 在这里注册 change 事件处理函数
       document.getElementById('region-select').addEventListener('change', function (event) {
         // 获取用户选择的行政区
@@ -930,17 +930,12 @@
         myChart.setOption({
           series: [
             {
-              type: 'effectScatter',
-              coordinateSystem: 'geo',
-              data: regionData[selectedRegion].map(function (item) {
-                return [item.Lng, item.Lat, item.口味, item.行政区];
-              }),
-              symbolSize: 3,
+              // 在这里根据 selectedRegion 更新数据
             }
           ]
         });
       });
-    };
+    });
 })();
 
 

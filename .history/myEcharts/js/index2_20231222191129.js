@@ -917,7 +917,7 @@
     window.addEventListener("resize", function() {
     myChart.resize();
     });
-    window.onload = function ()  {
+    document.addEventListener('DOMContentLoaded', function () {
       // 在这里注册 change 事件处理函数
       document.getElementById('region-select').addEventListener('change', function (event) {
         // 获取用户选择的行政区
@@ -940,7 +940,7 @@
           ]
         });
       });
-    };
+    });
 })();
 
 
