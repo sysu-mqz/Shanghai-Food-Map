@@ -975,7 +975,7 @@
     var tooltip = {
       trigger: 'item',
       formatter: function (params) { 
-        return att + params.value[2]; 
+        return '口味: ' + params.value[2]; 
       
       }
     };
@@ -1021,7 +1021,7 @@
           calculable: true,
           left: 'left',
           inRange: {
-            color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
+            color: ['blue', 'purple', 'yellow', 'red']
           }
           // inRange: {
           //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
@@ -1065,7 +1065,7 @@
               calculable: true,
               left: 'left',
               inRange: {
-                color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
+                color: ['blue', 'purple', 'yellow', 'red']
               }
                 },
           ],

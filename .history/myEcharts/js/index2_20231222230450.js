@@ -949,8 +949,6 @@
           口味: item.口味,
           行政区: item.行政区,
           服务: item.服务,
-          环境: item.环境,
-          人均消费: item.人均消费,
           
         };
     });
@@ -971,13 +969,9 @@
     echarts.registerMap('shanghai', mapdata);
 
   // 设置散点图配置项
-    var att = '口味';
     var tooltip = {
       trigger: 'item',
-      formatter: function (params) { 
-        return att + params.value[2]; 
-      
-      }
+      formatter: function (params) { return '口味: ' + params.value[2]; }
     };
     var legend ={
       orient: "vertical",
@@ -1021,7 +1015,7 @@
           calculable: true,
           left: 'left',
           inRange: {
-            color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
+            color: ['blue', 'purple', 'yellow', 'red']
           }
           // inRange: {
           //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
@@ -1049,7 +1043,7 @@
       document.getElementById('att-select').addEventListener('change', function (event) {
       
         // 获取用户选择的行政区
-      att = event.target.value;
+        var att = event.target.value;
 
         // 打印用户选择的行政区
         console.log('用户选择的行政区：', att);
@@ -1062,11 +1056,16 @@
           geo: geo,
           visualMap: [
             { type: 'piecewise',
-              calculable: true,
-              left: 'left',
-              inRange: {
-                color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
-              }
+                  min: 0,
+                  max: 10,
+                  calculable: true,
+                  left: 'left',
+                  inRange: {
+                    color: ['blue', 'purple', 'yellow', 'red']
+                  }
+                  // inRange: {
+                  //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
+                  // }
                 },
           ],
           series: [
@@ -1074,7 +1073,7 @@
               type: 'effectScatter',
               coordinateSystem: 'geo',
               data: selectedData.map(function (item) {
-                return [item.Lng, item.Lat, item[att]];
+                return [item.Lng, item.Lat, item.att];
               }),
               symbolSize: 3,
             }
