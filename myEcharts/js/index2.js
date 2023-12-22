@@ -759,7 +759,7 @@
             orient: "vertical",
             top: "bottom",
             left: "right",
-          data: ["宝山区", "奉贤区", "虹口区", "黄浦区", "嘉定区", "金山区", "静安区", "卢湾区", "闵行区", "浦东新区", "普陀区", "青浦区", "松江区", "徐汇区", "杨浦区", "闸北区","长宁区"],
+            data: [" 宝山区", " 奉贤区", " 虹口区", " 黄浦区", " 嘉定区", " 金山区", " 静安区", " 卢湾区", " 闵行区", " 浦东新区", " 普陀区", " 青浦区", " 松江区", " 徐汇区", " 杨浦区", " 闸北区", " 长宁区"],
             textStyle: {
             color: "#fff"
             },
@@ -788,24 +788,34 @@
                 }
             }
         },     
-        visualMap: {
-            type: 'piecewise',
-            min: 0,
-            max: 10,
-            calculable: true,
-            inRange: {
-                color: ['blue', 'purple', 'yellow', 'red']
-            }
-            // inRange: {
-            //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
-            // }
+      visualMap: [
+        { type: 'piecewise',
+          min: 0,
+          max: 10,
+          calculable: true,
+          left: 'left',
+          inRange: {
+            color: ['blue', 'purple', 'yellow', 'red']
+          }
+          // inRange: {
+          //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
+          // }
         },
+        {
+          type: 'piecewise',
+          categories: regions,
+          seriesIndex: [0],
+          orient: 'vertical',
+          bottom: 0,
+          right: 'right'
+            
+        }
+        ],
         series: [{
             type: 'effectScatter',
             coordinateSystem: 'geo',
-        
             data: selectedData.map(function(item) {
-                return [item.Lng, item.Lat, item.口味];
+                return [item.Lng, item.Lat, item.口味, item.行政区];
             }),
             symbolSize: 3,
       
