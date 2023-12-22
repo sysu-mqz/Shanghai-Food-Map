@@ -24,7 +24,7 @@
     
     if (Array.isArray(data)) {  
       data.forEach((item) => {  
-        const category = item.category; // 假设类别字段是'category'  
+        const category = item.category;  
         categories.add(category);  
         if (category in categoryCounts) {  
           categoryCounts[category]++;  
@@ -51,13 +51,17 @@
 
   // 统计各个类别的类别、数量和占比（考虑与上一个函数合并）
   function getTooltipFormatter(info) {
-    console.log('运行了getTooltipFormatter函数');
+    // console.log('运行了getTooltipFormatter函数');
+    let sum = info.length;
     return function (info) {
-      console.log('info:', info.name);
+      // console.log('info:', info.name);
       let category = info.name;
       let amount = info.value;
+      let ratio = Math.round(info.value / sum * 100, 2);
       return [
-        '数量: &nbsp;' + amount + '<br>'
+        '名称: &nbsp;' + category + '<br>' + 
+        '数量: &nbsp;' + amount + '<br>' + 
+        '比例: &nbsp;&nbsp;' + ratio + '%' + '<br>'
       ].join('');
     };
   }
@@ -71,18 +75,15 @@
   });
   // 2. 指定配置项和数据
   var option = {
+    tooltip: {
+      formatter: getTooltipFormatter(selectedData)
+    },
     series: [
       {
         type: 'treemap',
         // tooltip: {
         //   formatter: getTooltipFormatter(selectedData),
         // },
-        tooltip: {
-          formatter: function(params) {
-            console.log('info:', params);
-              return '数量: ' + params.value[0];
-          }
-        },
         label: {
           position: 'insideTopLeft',
         },
