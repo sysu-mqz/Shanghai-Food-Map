@@ -727,7 +727,20 @@
             Lng: item.Lng,
             Lat: item.Lat,
             口味: item.口味,
+            行政区: item.行政区
         };
+    });
+    function filterByRegion(region) {
+      return selectedData.filter(function (item) {
+        return item.行政区 === region;
+      });
+    }
+    var regions = [" 宝山区", " 奉贤区", " 虹口区", " 黄浦区", " 嘉定区", " 金山区", " 静安区", " 卢湾区", " 闵行区", " 浦东新区", " 普陀区", " 青浦区", " 松江区", " 徐汇区", " 杨浦区", " 闸北区", " 长宁区"];
+
+    var regionData = {};
+
+    regions.forEach(function (region) {
+      regionData[region] = filterByRegion(region);
     });
 
     // 设置地图为上海地图
@@ -805,7 +818,7 @@
     myChart.resize();
   });
     
-    console.log(selectedData);
+    console.log(regionData);
 })();
 
 
