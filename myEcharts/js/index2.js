@@ -954,24 +954,18 @@
           
         };
     });
-    function filterByRegion(region) {
-      return selectedData.filter(function (item) {
-        return item.行政区 === region;
-      });
-    }
     var regions = [" 宝山区", " 奉贤区", " 虹口区", " 黄浦区", " 嘉定区", " 金山区", " 静安区", " 卢湾区", " 闵行区", " 浦东新区", " 普陀区", " 青浦区", " 松江区", " 徐汇区", " 杨浦区", " 闸北区", " 长宁区"];
 
-    var regionData = {};
+  
 
-    regions.forEach(function (region) {
-      regionData[region] = filterByRegion(region);
-    });
+
 
     // 设置地图为上海地图
     echarts.registerMap('shanghai', mapdata);
 
   // 设置散点图配置项
     var att = '口味';
+    var region = '全部';
     var tooltip = {
       trigger: 'item',
       formatter: function (params) { 
@@ -1035,7 +1029,6 @@
                 return [item.Lng, item.Lat, item.口味];
             }),
             symbolSize: 3,
-      
         }]
     };
 
@@ -1045,35 +1038,74 @@
       myChart.resize();
     });
     window.onload = function ()  {
-      // 在这里注册 change 事件处理函数
+
+      var regionData = selectedData;
+      document.getElementById('region-select').addEventListener('change', function (event){
+        region = event.target.value;
+        console.log('用户选择的新政区', region);
+
+        function filterByRegion(region) {
+          return selectedData.filter(function (item) {
+            return item.行政区 === region;
+          });
+        }
+        if (region === '全部') {
+          var regionData = selectedData;
+        }
+        else {
+          var regionData = filterByRegion(region);
+        }
+        console.log('1:', regionData);
+      });
       document.getElementById('att-select').addEventListener('change', function (event) {
       
         // 获取用户选择的行政区
-      att = event.target.value;
+        att = event.target.value;
 
         // 打印用户选择的行政区
-        console.log('用户选择的行政区：', att);
-        console.log('用户选择的行政区：', selectedData[0][att]);
-
-          // 更新地图的选项
-        myChart.setOption({
-          tooltip: tooltip,
-          legend: legend,
-          geo: geo,
-          visualMap: [
-            { type: 'piecewise',
+        console.log('用户选择的属性', att);
+        console.log('用户选择的属性值：', selectedData[0][att]);
+        console.log('2:',regionData);
+        if (att === '人均消费') { 
+          var visualMap = [
+            {
+              type: 'piecewise',
+              min: 0,
+              max: 500,
+              calculable: true,
+              left: 'left',
+              inRange: {
+                color: ['#1F3A93', '#7A942E', '#96281B', '#674172','#3E4A61']
+              },
+              outOfRange: {
+                color: 'yellow'
+              }
+            },
+          ];
+        }
+        else {
+          var visualMap = [
+            {
+              type: 'piecewise',
               calculable: true,
               left: 'left',
               inRange: {
                 color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
               }
-                },
-          ],
+            },
+          ];
+        }  
+        // 更新地图的选项
+        myChart.setOption({
+          tooltip: tooltip,
+          legend: legend,
+          visualMap : visualMap,
+          geo: geo,
           series: [
             {
               type: 'effectScatter',
               coordinateSystem: 'geo',
-              data: selectedData.map(function (item) {
+              data: regionData.map(function (item) {
                 return [item.Lng, item.Lat, item[att]];
               }),
               symbolSize: 3,
