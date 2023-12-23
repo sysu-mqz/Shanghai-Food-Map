@@ -3,7 +3,7 @@
 // 尝试利用矩形树图展示不同美食的基本情况
 (function() {
   // 1实例化对象
-  var myChart = echarts.init(document.querySelector(".bar .chart"),null, { width: 'auto', height: '300px' });
+  var myChart = echarts.init(document.querySelector(".bar .chart"), null, { width: 'auto', height: '400px' });
   
   // 2. 指定配置项和数据
   // 随机获取一个指定长度的数组
@@ -18,7 +18,7 @@
     return shuffled.slice(0, size);
   }
 
-  // 统计各个类别的名称和数量 
+  // 统计各个类别的名称和数量
   function countCategories (data) {  
     let categories = new Set();  
     let categoryCounts = {};
@@ -87,102 +87,26 @@
         // },
         label: {
           position: 'insideTopLeft',
+          fontSize: 16,
         },
         data: countCategories(selectedData),
       }
     ]
   };
-  // var option = {
-  //   color: ["#2f89cf"],
-  //   tooltip: {
-  //     trigger: "axis",
-  //     axisPointer: {
-  //       // 坐标轴指示器，坐标轴触发有效
-  //       type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
-  //     }
-  //   },
-  //   // 修改图表的大小
-  //   grid: {
-  //     left: "0%",
-  //     top: "10px",
-  //     right: "0%",
-  //     bottom: "4%",
-  //     containLabel: true
-  //   },
-  //   xAxis: [
-  //     {
-  //       type: "category",
-  //       data: [
-  //         "旅游行业",
-  //         "教育培训",
-  //         "游戏行业",
-  //         "医疗行业",
-  //         "电商行业",
-  //         "社交行业",
-  //         "金融行业"
-  //       ],
-  //       axisTick: {
-  //         alignWithLabel: true
-  //       },
-  //       // 修改刻度标签 相关样式
-  //       axisLabel: {
-  //         color: "rgba(255,255,255,.6) ",
-  //         fontSize: "12"
-  //       },
-  //       // 不显示x坐标轴的样式
-  //       axisLine: {
-  //         show: false
-  //       }
-  //     }
-  //   ],
-  //   yAxis: [
-  //     {
-  //       type: "value",
-  //       // 修改刻度标签 相关样式
-  //       axisLabel: {
-  //         color: "rgba(255,255,255,.6) ",
-  //         fontSize: 12
-  //       },
-  //       // y轴的线条改为了 2像素
-  //       axisLine: {
-  //         lineStyle: {
-  //           color: "rgba(255,255,255,.1)",
-  //           width: 2
-  //         }
-  //       },
-  //       // y轴分割线的颜色
-  //       splitLine: {
-  //         lineStyle: {
-  //           color: "rgba(255,255,255,.1)"
-  //         }
-  //       }
-  //     }
-  //   ],
-  //   series: [
-  //     {
-  //       name: "直接访问",
-  //       type: "bar",
-  //       barWidth: "35%",
-  //       data: [200, 300, 300, 900, 1500, 1200, 600],
-  //       itemStyle: {
-  //         // 修改柱子圆角
-  //         barBorderRadius: 5
-  //       }
-  //     }
-  //   ]
-  // };
+  
   // 3. 把配置项给实例对象
   myChart.setOption(option);
+
   // 4. 让图表跟随屏幕自动的去适应
   window.addEventListener("resize", function() {
     myChart.resize();
   });
 })();
 
-// 柱状图2
+// 尝试利用平行坐标系展示美食的点评数、口味、环境、服务和人均消费
 (function() {
   // 1. 实例化对象
-  var myChart = echarts.init(document.querySelector(".bar2 .chart"), null, { width: 'auto', height: '350px' });
+  var myChart = echarts.init(document.querySelector(".bar2 .chart"), null, { width: 'auto', height: '430px' });
   // 2. 指定配置和数据
   // 随机获取一个指定长度的数组
   function getRandomSubarray(arr, size) {
@@ -198,7 +122,6 @@
 
   // 生成不同美食类别的parallel数据结构，希望实现类似的效果：https://echarts.apache.org/examples/zh/editor.html?c=parallel-aqi
   function generateData(data) {
-    console.log(data);
     let finalData = [];
     let categories = new Set();
     let selectedCategories = [];
@@ -220,7 +143,6 @@
 
     categories.forEach((item) => {
       if (categoryCounts[item] / data.length >= 0.1) {
-        console.log('我进来了 category: ' + item);
         let newData = data.filter(item2 => item2.category === item); 
         let obj = {};
         obj.name = item;
@@ -269,9 +191,8 @@
           averageExpanse: item.人均消费,
       };
   });
+  // 生成占比不小于10%的美食类别对应的数据集
   var result = generateData(selectedData);
-  console.log(result.finalData);
-  console.log(result.selectedCategories);
 
   var option = {
     parallelAxis: [
@@ -299,112 +220,11 @@
     //   data: generateParallelData(selectedData),
     // },
     series: result.finalData,
-    // visualMap: {
-    //   show: true,
-    //   min: 0,
-    //   max: 150,
-    //   dimension: 4,
-    //   inRange: {
-    //     color: ['#d94e5d', '#eac736', '#50a3ba'].reverse()
-    //     // colorAlpha: [0, 1]
-    //   }
-    // },
   };
-
-  // var option = {
-  //   grid: {
-  //     top: "10%",
-  //     left: "22%",
-  //     bottom: "10%"
-  //     // containLabel: true
-  //   },
-  //   // 不显示x轴的相关信息
-  //   xAxis: {
-  //     show: false
-  //   },
-  //   yAxis: [
-  //     {
-  //       type: "category",
-  //       inverse: true,
-  //       data: ["HTML5", "CSS3", "javascript", "VUE", "NODE"],
-  //       // 不显示y轴的线
-  //       axisLine: {
-  //         show: false
-  //       },
-  //       // 不显示刻度
-  //       axisTick: {
-  //         show: false
-  //       },
-  //       // 把刻度标签里面的文字颜色设置为白色
-  //       axisLabel: {
-  //         color: "#fff"
-  //       }
-  //     },
-  //     {
-  //       data: [702, 350, 610, 793, 664],
-  //       inverse: true,
-  //       // 不显示y轴的线
-  //       axisLine: {
-  //         show: false
-  //       },
-  //       // 不显示刻度
-  //       axisTick: {
-  //         show: false
-  //       },
-  //       // 把刻度标签里面的文字颜色设置为白色
-  //       axisLabel: {
-  //         color: "#fff"
-  //       }
-  //     }
-  //   ],
-  //   series: [
-  //     {
-  //       name: "条",
-  //       type: "bar",
-  //       data: [70, 34, 60, 78, 69],
-  //       yAxisIndex: 0,
-  //       // 修改第一组柱子的圆角
-  //       itemStyle: {
-  //         barBorderRadius: 20,
-  //         // 此时的color 可以修改柱子的颜色
-  //         color: function(params) {
-  //           // params 传进来的是柱子对象
-  //           // console.log(params);
-  //           // dataIndex 是当前柱子的索引号
-  //           return myColor[params.dataIndex];
-  //         }
-  //       },
-  //       // 柱子之间的距离
-  //       barCategoryGap: 50,
-  //       //柱子的宽度
-  //       barWidth: 10,
-  //       // 显示柱子内的文字
-  //       label: {
-  //         show: true,
-  //         position: "inside",
-  //         // {c} 会自动的解析为 数据  data里面的数据
-  //         formatter: "{c}%"
-  //       }
-  //     },
-  //     {
-  //       name: "框",
-  //       type: "bar",
-  //       barCategoryGap: 50,
-  //       barWidth: 15,
-  //       yAxisIndex: 1,
-  //       data: [100, 100, 100, 100, 100],
-  //       itemStyle: {
-  //         color: "none",
-  //         borderColor: "#00c1de",
-  //         borderWidth: 3,
-  //         barBorderRadius: 15
-  //       }
-  //     }
-  //   ]
-  // };
 
   // 3. 把配置给实例对象
   myChart.setOption(option);
+
   // 4. 让图表跟随屏幕自动的去适应
   window.addEventListener("resize", function() {
     myChart.resize();
@@ -412,7 +232,7 @@
 })();
 
 // 如果改成四个图，需要隐藏以下代码，否则之后的图像无法显示
-// 折线图1模块制作
+// // 折线图1模块制作
 // (function() {
 //   var yearData = [
 //     {
@@ -542,7 +362,7 @@
 //   });
 // })();
 
-// 折线图2 模块制作
+// // 折线图2 模块制作
 // (function() {
 //   var myChart = echarts.init(document.querySelector(".line2 .chart"));
 //   var option = {
@@ -802,55 +622,205 @@
 //   });
 // })();
 
-// 饼形图1
+// 实现数量前4的美食类别的饼图，展示不同的行政区占比
 (function() {
   // 1. 实例化对象
-  var myChart = echarts.init(document.querySelector(".pie .chart"));
-  // 2.指定配置
-  var option = {
-    color: ["#065aab", "#066eab", "#0682ab", "#0696ab", "#06a0ab"],
-    tooltip: {
-      trigger: "item",
-      formatter: "{a} <br/>{b}: {c} ({d}%)"
-    },
+  var myChart = echarts.init(document.querySelector(".pie .chart"), null, { width: 'auto', height: '430px' });
 
-    legend: {
-      bottom: "0%",
-      // 修改小图标的大小
-      itemWidth: 10,
-      itemHeight: 10,
-      // 修改图例组件的文字为 12px
-      textStyle: {
-        color: "rgba(255,255,255,.5)",
-        fontSize: "12"
-      }
+  // 2.指定配置
+  // 随机获取一个指定长度的数组
+  function getRandomSubarray(arr, size) {
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
+    while (i--) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(0, size);
+  }
+
+  // 统计类别数量占比前4的美食类别
+  function countCategories (data) {  
+    let categories = new Set();  
+    let categoryCounts = {};
+    
+    if (Array.isArray(data)) {  
+      data.forEach((item) => {  
+        const category = item.category;  
+        categories.add(category);  
+        if (category in categoryCounts) {  
+          categoryCounts[category]++;  
+        } else {  
+          categoryCounts[category] = 1;  
+        }
+      });  
+    } else {  
+      console.error('Invalid data format');  
+    }
+
+    // 对categoryCounts按照value值从大到小排序
+    // 使用Object.entries()获取键值对数组  
+    let entries = Object.entries(categoryCounts);  
+      
+    // 使用sort()函数对数组进行排序
+    entries.sort((a, b) => b[1] - a[1]);  
+      
+    // 转换回对象  
+    let sortedCategoryCounts = {};  
+    for (let [key, value] of entries) {  
+      sortedCategoryCounts[key] = value;
+    }
+    
+    // 取占比前4的美食类别进行展示
+    let seletedCategories = [];  // 创建一个空数组
+    let entries2 = Object.entries(sortedCategoryCounts);
+    for (let i = 0; i < 4; i++) {
+      let obj = entries2[i][0];
+      seletedCategories.push(obj);
+      // console.log(category + ': ' + categoryCounts[category]);
+    }
+
+    console.log(seletedCategories);
+
+    return seletedCategories;
+  };
+
+  function countRegions (data) {
+    let regions = data.reduce((accumulator, currentItem) => {  
+      if (!accumulator[currentItem.region]) {  
+          accumulator[currentItem.region] = 0;  
+      }  
+        accumulator[currentItem.region]++;  
+        return accumulator;  
+      }, {});
+      
+    let result = Object.keys(regions).map(region => ({name: region, value: regions[region]}));
+    return result
+  };
+  
+  var data_test = getRandomSubarray(json, 1000)
+  // var data_test = json
+  var selectedData = data_test.map(function(item) {
+      return {
+          category: item.类别,
+          region: item.行政区,
+      };
+  });
+  selectedCategories = countCategories(selectedData);
+  
+  // 筛选出符合selectedCategories的数据
+  var selectedCategoryData = {};
+  selectedCategories.forEach(function (category) {
+    selectedCategoryData[category] = selectedData.filter(function (item) {
+      return item.category === category;
+    });
+  });
+
+  let entries = Object.entries(selectedCategoryData);
+  let data1 = countRegions(entries[0][1]);
+  let data2 = countRegions(entries[1][1]);
+  let data3 = countRegions(entries[2][1]);
+  let data4 = countRegions(entries[3][1]);
+
+  var label = {
+    show: false,
+    position: 'center',
+    alignTo: 'none',
+    bleedMargin: 5
+  };
+
+  var emphasis = {
+    label: {
+      show: true,
+      fontSize: 14,
+      fontWeight: 'bold'
+    }
+  };
+
+  var option = {
+    tooltip: {
+      trigger: 'item'
     },
+    legend: {
+      top: '5%',
+      left: 'center'
+    },
+    title: [
+      {
+        subtext: selectedCategories[0],
+        left: '25%',
+        top: '52%',
+        textAlign: 'center'
+      },
+      {
+        subtext: selectedCategories[1],
+        left: '75%',
+        top: '52%',
+        textAlign: 'center'
+      },
+      {
+        subtext: selectedCategories[2],
+        left: '25%',
+        bottom: '6%',
+        textAlign: 'center'
+      },
+      {
+        subtext: selectedCategories[3],
+        left: '75%',
+        bottom: '6%',
+        textAlign: 'center'
+      }
+    ],
     series: [
       {
-        name: "年龄分布",
-        type: "pie",
-        // 这个radius可以修改饼形图的大小
-        // radius 第一个值是内圆的半径 第二个值是外圆的半径
-        radius: ["40%", "60%"],
-        center: ["50%", "45%"],
-        avoidLabelOverlap: false,
-        // 图形上的文字
-        label: {
-          show: false,
-          position: "center"
-        },
-        // 链接文字和图形的线是否显示
-        labelLine: {
-          show: false
-        },
-        data: [
-          { value: 1, name: "0岁以下" },
-          { value: 4, name: "20-29岁" },
-          { value: 2, name: "30-39岁" },
-          { value: 2, name: "40-49岁" },
-          { value: 1, name: "50岁以上" }
-        ]
-      }
+        type: 'pie',
+        radius: ['30%', '50%'],
+        center: ['50%', '50%'],
+        data: data1,
+        label: label,
+        emphasis: emphasis,
+        left: 0,
+        right: '50%',
+        top: '15%',  // 与top的距离
+        bottom: '35%'  // 与bottom的距离
+      },
+      {
+        type: 'pie',
+        radius: ['30%', '50%'],
+        center: ['50%', '50%'],
+        data: data2,
+        label: label,
+        emphasis: emphasis,
+        left: '50%',
+        right: 0,
+        top: '15%',
+        bottom: '35%'
+      },
+      {
+        type: 'pie',
+        radius: ['30%', '50%'],
+        center: ['50%', '50%'],
+        data: data3,
+        label: label,
+        emphasis: emphasis,
+        left: 0,
+        right: '50%',
+        top: '50%',
+        bottom: 0
+      },
+      {
+        type: 'pie',
+        radius: ['30%', '50%'],
+        center: ['50%', '50%'],
+        data: data4,
+        label: label,
+        emphasis: emphasis,
+        left: '50%',
+        right: 0,
+        top: '50%',
+        bottom: 0
+      },
     ]
   };
 
@@ -864,69 +834,546 @@
 
 // 饼形图2 地区分布模块
 (function() {
-  var myChart = echarts.init(document.querySelector(".pie2 .chart"));
-  var option = {
-    color: [
-      "#006cff",
-      "#60cda0",
-      "#ed8884",
-      "#ff9f7f",
-      "#0096ff",
-      "#9fe6b8",
-      "#32c5e9",
-      "#1d9dff"
+  // 1. 实例化对象
+  var myChart = echarts.init(document.querySelector(".pie2 .chart"), null, { width: 'auto', height: '420px' }, 'dark');
+
+  // 2. 指定配置
+  // 随机获取一个指定长度的数组
+  function getRandomSubarray(arr, size) {
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
+    while (i--) {
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
+    }
+    return shuffled.slice(0, size);
+  };
+
+  // 实现了平面散点图
+  // function generateData(data, type1, type2) {
+  //   var data_set = [];
+
+  //   let selectedType1 = 0;
+  //   if (type1 === 'comments') {
+  //     selectedType1 = 0;
+  //   } else if (type1 === 'flavour') {
+  //     selectedType1 = 1;
+  //   } else if (type1 === 'environment') {
+  //     selectedType1 = 2;
+  //   } else if (type1 === 'service') {
+  //     selectedType1 = 3;
+  //   } else if (type1 === 'averageExpanse') {
+  //     selectedType1 = 4;
+  //   }
+
+  //   let selectedType2 = 0;
+  //   if (type2 === 'comments') {
+  //     selectedType2 = 0;
+  //   } else if (type2 === 'flavour') {
+  //     selectedType2 = 1;
+  //   } else if (type2 === 'environment') {
+  //     selectedType2 = 2;
+  //   } else if (type2 === 'service') {
+  //     selectedType2 = 3;
+  //   } else if (type2 === 'averageExpanse') {
+  //     selectedType2 = 4;
+  //   }
+
+  //   if (Array.isArray(data)) {  
+  //     data.forEach((item) => {
+  //       let entries = Object.entries(item);
+  //       const item1 = entries[selectedType1][1];  
+  //       const item2 = entries[selectedType2][1];
+  //       data_set.push([parseFloat(item1), parseFloat(item2)])
+  //     });
+  //   } else {  
+  //     console.error('Invalid data format');  
+  //   }
+
+  //   return data_set
+  // };
+  
+  // var data_test = getRandomSubarray(json, 1000)
+  // // var data_test = json
+  // var selectedData = data_test.map(function(item) {
+  //     return {
+  //       comments: item.点评数,
+  //       flavour: item.口味,
+  //       environment: item.环境,
+  //       service: item.服务,
+  //       averageExpanse: item.人均消费,
+  //     };
+  // });
+  // var data = generateData(selectedData, 'comments', 'flavour');
+
+  // var option = {
+  //   visualMap: {
+  //     min: 0,
+  //     max: 10,
+  //     dimension: 1,
+  //     orient: 'vertical',
+  //     right: 10,
+  //     top: 'center',
+  //     text: ['HIGH', 'LOW'],
+  //     calculable: true,
+  //     inRange: {
+  //       color: ['red', 'blue']
+  //     }
+  //   },
+  //   tooltip: {
+  //     trigger: 'item',
+  //     axisPointer: {
+  //       type: 'cross'
+  //     }
+  //   },
+  //   xAxis: [
+  //     {
+  //       type: 'value',
+  //       name: '点评数',
+  //       nameGap: 25,
+  //       nameLocation: 'middle',
+  //       nameTextStyle: {
+  //         fontSize: 16
+  //       },
+  //     }
+  //   ],
+  //   yAxis: [
+  //     {
+  //       type: 'value',
+  //       name: '口味',
+  //       nameGap: 25,
+  //       nameLocation: 'middle',
+  //       nameTextStyle: {
+  //         fontSize: 16
+  //       },
+  //     }
+  //   ],
+  //   series: [
+  //     {
+  //       name: 'price-area',
+  //       type: 'scatter',
+  //       symbolSize: 5,
+  //       data: data
+  //     }
+  //   ]
+  // };
+
+  // // 尝试绘制三维散点图（五个变量可同时展示）
+  // var app = {};
+  // var data_test = getRandomSubarray(json, 1000)
+  // var selectedData = data_test.map(function(item) {
+  //   return [
+  //     parseInt(item.点评数), parseFloat(item.口味), parseFloat(item.环境), parseFloat(item.服务), parseFloat(item.人均消费)
+  //   ];
+  // });
+  // var data = selectedData;
+  
+  // var schema = [
+  //   { name: '点评数', index: 0 },
+  //   { name: '口味', index: 1 },
+  //   { name: '环境', index: 2 },
+  //   { name: '服务', index: 3 },
+  //   { name: '人均消费', index: 4 }
+  // ];
+  
+  // var fieldIndices = schema.reduce(function (obj, item) {
+  //   obj[item.name] = item.index;
+  //   return obj;
+  // }, {});
+  
+  // var fieldNames = schema.map(function (item) {
+  //   return item.name;
+  // });
+  // fieldNames = fieldNames.slice(2, fieldNames.length - 2);
+
+  // // 获取颜色和符号大小的极大值
+  // function getMaxOnExtent(data) {
+  //   var colorMax = -Infinity;
+  //   var symbolSizeMax = -Infinity;
+  //   for (var i = 0; i < data.length; i++) {
+  //     var item = data[i];
+  //     var colorVal = item[fieldIndices[config.color]];
+  //     var symbolSizeVal = item[fieldIndices[config.symbolSize]];
+  //     colorMax = Math.max(colorVal, colorMax);
+  //     symbolSizeMax = Math.max(symbolSizeVal, symbolSizeMax);
+  //   }
+  //   return {
+  //     color: colorMax,
+  //     symbolSize: symbolSizeMax
+  //   };
+  // }
+
+  // var config = (app.config = {
+  //   xAxis3D: '服务',
+  //   yAxis3D: '口味',
+  //   zAxis3D: '环境',
+  //   color: '点评数',
+  //   symbolSize: '人均消费',
+  //   onChange: function () {
+  //     var max = getMaxOnExtent(data);
+  //     if (data) {
+  //       myChart.setOption({
+  //         visualMap: [
+  //           {
+  //             max: max.color / 2
+  //           },
+  //           {
+  //             max: max.symbolSize / 2
+  //           }
+  //         ],
+  //         xAxis3D: {
+  //           name: config.xAxis3D
+  //         },
+  //         yAxis3D: {
+  //           name: config.yAxis3D
+  //         },
+  //         zAxis3D: {
+  //           name: config.zAxis3D
+  //         },
+  //         series: {
+  //           dimensions: [
+  //             config.xAxis3D,
+  //             config.yAxis3D,
+  //             config.yAxis3D,
+  //             config.color,
+  //             config.symbolSize,
+  //           ],
+  //           data: data.map(function (item, idx) {
+  //             return [
+  //               item[fieldIndices[config.xAxis3D]],
+  //               item[fieldIndices[config.yAxis3D]],
+  //               item[fieldIndices[config.zAxis3D]],
+  //               item[fieldIndices[config.color]],
+  //               item[fieldIndices[config.symbolSize]],
+  //               idx
+  //             ];
+  //           })
+  //         }
+  //       });
+  //     }
+  //   }
+  // });
+
+  // app.configParameters = {};
+  // ['xAxis3D', 'yAxis3D', 'zAxis3D', 'color', 'symbolSize'].forEach(function (
+  //   fieldName
+  // ) {
+  //   app.configParameters[fieldName] = {
+  //     options: fieldNames
+  //   };
+  // });
+
+  // var max = getMaxOnExtent(data);
+
+  // var option = ({
+  //   tooltip: {},
+  //   visualMap: [
+  //     {
+  //       top: 10,
+  //       calculable: true,
+  //       dimension: 3,
+  //       max: max.color / 2,
+  //       inRange: {
+  //         color: [
+  //           '#1710c0',
+  //           '#0b9df0',
+  //           '#00fea8',
+  //           '#00ff0d',
+  //           '#f5f811',
+  //           '#f09a09',
+  //           '#fe0300'
+  //         ]
+  //       },
+  //       textStyle: {
+  //         color: '#fff'
+  //       }
+  //     },
+  //     {
+  //       bottom: 10,
+  //       calculable: true,
+  //       dimension: 4,
+  //       max: max.symbolSize / 2,
+  //       inRange: {
+  //         symbolSize: [10, 40]
+  //       },
+  //       textStyle: {
+  //         color: '#fff'
+  //       }
+  //     }
+  //   ],
+  //   xAxis3D: {
+  //     name: config.xAxis3D,
+  //     type: 'value'
+  //   },
+  //   yAxis3D: {
+  //     name: config.yAxis3D,
+  //     type: 'value'
+  //   },
+  //   zAxis3D: {
+  //     name: config.zAxis3D,
+  //     type: 'value'
+  //   },
+  //   grid3D: {
+  //     axisLine: {
+  //       lineStyle: {
+  //         color: '#fff'
+  //       }
+  //     },
+  //     axisPointer: {
+  //       lineStyle: {
+  //         color: '#ffbd67'
+  //       }
+  //     },
+  //     viewControl: {
+  //       // autoRotate: true
+  //       // projection: 'orthographic'
+  //     }
+  //   },
+  //   series: [
+  //     {
+  //       type: 'scatter3D',
+  //       dimensions: [
+  //         config.xAxis3D,
+  //         config.yAxis3D,
+  //         config.yAxis3D,
+  //         config.color,
+  //         config.symbolSize
+  //       ],
+  //       data: data.map(function (item, idx) {
+  //         return [
+  //           item[fieldIndices[config.xAxis3D]],
+  //           item[fieldIndices[config.yAxis3D]],
+  //           item[fieldIndices[config.zAxis3D]],
+  //           item[fieldIndices[config.color]],
+  //           item[fieldIndices[config.symbolSize]],
+  //           idx
+  //         ];
+  //       }),
+  //       symbolSize: 12,
+  //       // symbol: 'triangle',
+  //       itemStyle: {
+  //         borderWidth: 1,
+  //         borderColor: 'rgba(255,255,255,0.8)'
+  //       },
+  //       emphasis: {
+  //         itemStyle: {
+  //           color: '#fff'
+  //         }
+  //       }
+  //     }
+  //   ]
+  // });
+
+
+  // 尝试绘制三维散点图（四个变量可同时展示）
+  var app = {};
+  var data_test = getRandomSubarray(json, 1000)
+  var selectedData = data_test.map(function(item) {
+    return [
+      parseInt(item.点评数), parseFloat(item.口味), parseFloat(item.环境), parseFloat(item.服务), parseFloat(item.人均消费)
+    ];
+  });
+  var data = selectedData;
+  
+  var schema = [
+    { name: '点评数', index: 0 },
+    { name: '口味', index: 1 },
+    { name: '环境', index: 2 },
+    { name: '服务', index: 3 },
+    { name: '人均消费', index: 4 }
+  ];
+  
+  var fieldIndices = schema.reduce(function (obj, item) {
+    obj[item.name] = item.index;
+    return obj;
+  }, {});
+  
+  var fieldNames = schema.map(function (item) {
+    return item.name;
+  });
+  fieldNames = fieldNames.slice(2, fieldNames.length - 2);
+
+  // 获取颜色的极大值
+  function getMaxOnExtent(data) {
+    var colorMax = -Infinity;
+    for (var i = 0; i < data.length; i++) {
+      var item = data[i];
+      var colorVal = item[fieldIndices[config.color]];
+      colorMax = Math.max(colorVal, colorMax);
+    }
+    return {
+      color: colorMax,
+    };
+  }
+
+  var config = (app.config = {
+    xAxis3D: '服务',
+    yAxis3D: '口味',
+    zAxis3D: '环境',
+    color: '点评数',
+    onChange: function () {
+      var max = getMaxOnExtent(data);
+      if (data) {
+        myChart.setOption({
+          visualMap: [
+            {
+              max: max.color / 2
+            },
+          ],
+          xAxis3D: {
+            name: config.xAxis3D
+          },
+          yAxis3D: {
+            name: config.yAxis3D
+          },
+          zAxis3D: {
+            name: config.zAxis3D
+          },
+          series: {
+            dimensions: [
+              config.xAxis3D,
+              config.yAxis3D,
+              config.yAxis3D,
+              config.color,
+            ],
+            data: data.map(function (item, idx) {
+              return [
+                item[fieldIndices[config.xAxis3D]],
+                item[fieldIndices[config.yAxis3D]],
+                item[fieldIndices[config.zAxis3D]],
+                item[fieldIndices[config.color]],
+                idx
+              ];
+            })
+          }
+        });
+      }
+    }
+  });
+
+  app.configParameters = {};
+  ['xAxis3D', 'yAxis3D', 'zAxis3D', 'color'].forEach(function (
+    fieldName
+  ) {
+    app.configParameters[fieldName] = {
+      options: fieldNames
+    };
+  });
+
+  var max = getMaxOnExtent(data);
+
+  var tooltip = {
+    trigger: 'item',
+    formatter: function (params) { 
+      return [
+        '点评数: &nbsp;' + params.value[3] + '<br>' + 
+        '服务: &nbsp;' + params.value[0] + '<br>' + 
+        '口味: &nbsp;' + params.value[1] + '<br>' +
+        '环境: &nbsp;' + params.value[2] + '<br>'
+      ].join('') 
+    }
+  };
+
+  var option = ({
+    tooltip: tooltip,
+    visualMap: [
+      {
+        top: 10,
+        // text: '点评数',
+        // type: 'piecewise',
+        calculable: true,
+        dimension: 3,
+        min: 0,
+        // max: Math.log10(max.color / 2),  // 可以取对数，但效果不一定好
+        max: max.color / 2,
+        inRange: {
+          color: [
+            '#1710c0',
+            '#0b9df0',
+            '#00fea8',
+            '#00ff0d',
+            '#f5f811',
+            '#f09a09',
+            '#fe0300'
+          ]
+        },
+        textStyle: {
+          color: '#fff'
+        }
+      },
     ],
-    tooltip: {
-      trigger: "item",
-      formatter: "{a} <br/>{b} : {c} ({d}%)"
+    xAxis3D: {
+      name: config.xAxis3D,
+      type: 'value'
     },
-    legend: {
-      bottom: "0%",
-      itemWidth: 10,
-      itemHeight: 10,
-      textStyle: {
-        color: "rgba(255,255,255,.5)",
-        fontSize: "12"
+    yAxis3D: {
+      name: config.yAxis3D,
+      type: 'value'
+    },
+    zAxis3D: {
+      name: config.zAxis3D,
+      type: 'value'
+    },
+    grid3D: {
+      axisLine: {
+        lineStyle: {
+          color: '#fff'
+        }
+      },
+      axisPointer: {
+        lineStyle: {
+          color: '#ffbd67'
+        }
+      },
+      viewControl: {
+        // autoRotate: true
+        // projection: 'orthographic'
       }
     },
     series: [
       {
-        name: "地区分布",
-        type: "pie",
-        radius: ["10%", "70%"],
-        center: ["50%", "50%"],
-        roseType: "radius",
-        // 图形的文字标签
-        label: {
-          fontSize: 10
+        type: 'scatter3D',
+        dimensions: [
+          config.xAxis3D,
+          config.yAxis3D,
+          config.yAxis3D,
+          config.color,
+        ],
+        data: data.map(function (item, idx) {
+          return [
+            item[fieldIndices[config.xAxis3D]],
+            item[fieldIndices[config.yAxis3D]],
+            item[fieldIndices[config.zAxis3D]],
+            item[fieldIndices[config.color]],
+            idx
+          ];
+        }),
+        symbolSize: 8,
+        // symbol: 'triangle',
+        itemStyle: {
+          borderWidth: 0.1,
+          borderColor: 'rgba(255,255,255,0.8)'
         },
-        // 链接图形和文字的线条
-        labelLine: {
-          // length 链接图形的线条
-          length: 6,
-          // length2 链接文字的线条
-          length2: 8
-        },
-        data: [
-          { value: 20, name: "云南" },
-          { value: 26, name: "北京" },
-          { value: 24, name: "山东" },
-          { value: 25, name: "河北" },
-          { value: 20, name: "江苏" },
-          { value: 25, name: "浙江" },
-          { value: 30, name: "四川" },
-          { value: 42, name: "湖北" }
-        ]
+        emphasis: {
+          itemStyle: {
+            color: '#fff'
+          }
+        }
       }
     ]
-  };
+  });
+
+  // 3. 把配置给实例对象
   myChart.setOption(option);
-  // 监听浏览器缩放，图表对象调用缩放resize函数
+  
+  // 4. 让图表跟随屏幕自动的去适应
   window.addEventListener("resize", function() {
     myChart.resize();
   });
 })();
 
+// 核心部分，实现美食地图的展示
 (function () {
     var regionSelect = document.getElementById('region-select');
     myChart = echarts.init(document.querySelector(".map .chart"));
@@ -963,17 +1410,25 @@
     // 设置地图为上海地图
     echarts.registerMap('shanghai', mapdata);
 
-  // 设置散点图配置项
+    // 设置散点图配置项
     var att = '口味';
-    var region = '全部';
+    let tooltipNum = 2;
+      if (att === '服务') {
+        tooltipNum = 4;
+      } else if (att === '环境') {
+        tooltipNum = 5;
+      } else if (att === '人均消费') {
+        tooltipNum = 6;
+      }
+
     var tooltip = {
       trigger: 'item',
       formatter: function (params) { 
-        return att + params.value[2]; 
-      
+        return att + ": " + params.value[tooltipNum];
       }
     };
-    var legend ={
+
+    var legend = {
       orient: "vertical",
       top: "bottom",
       left: "right",
@@ -996,7 +1451,7 @@
           // 地图省份的背景颜色
           areaColor: "rgba(20, 41, 87,0.6)",
           borderColor: "#195BB9",
-          borderWidth: 1
+          borderWidth: 1.5
         },
         emphasis: {
           areaColor: "#2B91B7"
@@ -1004,8 +1459,8 @@
       }
     };
     var option = {
-        // backgroundColor: '#000',
-      tooltip:tooltip,
+      // backgroundColor: '#000',
+      tooltip: tooltip,
       legend: legend,
       geo: geo,
       visualMap: [
@@ -1021,15 +1476,15 @@
           //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
           // }
         },
-        ],
-        series: [{
-            type: 'effectScatter',
-            coordinateSystem: 'geo',
-            data: selectedData.map(function(item) {
-                return [item.Lng, item.Lat, item.口味];
-            }),
-            symbolSize: 3,
-        }]
+      ],
+      series: [{
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          data: selectedData.map(function(item) {
+              return [item.Lng, item.Lat, item.口味];
+          }),
+          symbolSize: 3,
+      }]
     };
 
     // 渲染图表
@@ -1037,6 +1492,7 @@
     window.addEventListener("resize", function() {
       myChart.resize();
     });
+
     window.onload = function ()  {
 
       var regionData = selectedData;
@@ -1059,65 +1515,47 @@
       });
       document.getElementById('att-select').addEventListener('change', function (event) {
       
-        // 获取用户选择的行政区
-        att = event.target.value;
+      // 获取用户选择的行政区
+      att = event.target.value;
 
-        // 打印用户选择的行政区
-        console.log('用户选择的属性', att);
-        console.log('用户选择的属性值：', selectedData[0][att]);
-        console.log('2:',regionData);
-        if (att === '人均消费') { 
-          var visualMap = [
-            {
-              type: 'piecewise',
-              min: 0,
-              max: 500,
-              calculable: true,
-              left: 'left',
-              inRange: {
-                color: ['#1F3A93', '#7A942E', '#96281B', '#674172','#3E4A61']
-              },
-              outOfRange: {
-                color: 'yellow'
-              }
-            },
-          ];
-        }
-        else {
-          var visualMap = [
-            {
-              type: 'piecewise',
-              calculable: true,
-              left: 'left',
-              inRange: {
-                color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
-              }
-            },
-          ];
-        }  
-        // 更新地图的选项
-        myChart.setOption({
-          tooltip: tooltip,
-          legend: legend,
-          visualMap : visualMap,
-          geo: geo,
-          series: [
-            {
-              type: 'effectScatter',
-              coordinateSystem: 'geo',
-              data: regionData.map(function (item) {
-                return [item.Lng, item.Lat, item[att]];
-              }),
-              symbolSize: 3,
+      // 打印用户选择的行政区
+      console.log('用户选择的行政区：', att);
+      console.log('用户选择的行政区：', selectedData[0][att]);
+
+      // 更新地图的选项
+      myChart.setOption({
+        tooltip: tooltip,
+        legend: legend,
+        geo: geo,
+        visualMap: [
+          { type: 'piecewise',
+            calculable: true,
+            left: 'left',
+            dimension: 2,
+            inRange: {
+              color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
             }
-          ]
-        });
-        window.addEventListener("resize", function () {
-          myChart.resize();
-        });
-        
+          },
+        ],
+        series: [
+          {
+            type: 'effectScatter',
+            coordinateSystem: 'geo',
+            data: selectedData.map(function (item) {
+              return [item.Lng, item.Lat, item[att]];
+            }),
+            symbolSize: 3,
+          }
+        ]
       });
-    };
+
+      // 重新渲染图表
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+
+    });
+  };
 })();
 
 
