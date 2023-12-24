@@ -1,51 +1,46 @@
 // import * as XLSX from "js/xlsx.full.min.js";
 
 // 尝试利用矩形树图展示不同美食的基本情况
-(function () {
+(function() {
   // 1实例化对象
-  var myChart = echarts.init(document.querySelector(".bar .chart"), null, {
-    width: 'auto',
-    height: '400px'
-  });
-
+  var myChart = echarts.init(document.querySelector(".bar .chart"), null, { width: 'auto', height: '400px' });
+  
   // 2. 指定配置项和数据
   // 随机获取一个指定长度的数组
   function getRandomSubarray(arr, size) {
-    var shuffled = arr.slice(0),
-      i = arr.length,
-      temp, index;
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
     while (i--) {
-      index = Math.floor((i + 1) * Math.random());
-      temp = shuffled[index];
-      shuffled[index] = shuffled[i];
-      shuffled[i] = temp;
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
     }
     return shuffled.slice(0, size);
   }
 
   // 统计各个类别的名称和数量
-  function countCategories(data) {
-    let categories = new Set();
+  function countCategories (data) {  
+    let categories = new Set();  
     let categoryCounts = {};
-
-    if (Array.isArray(data)) {
-      data.forEach((item) => {
-        const category = item.category;
-        categories.add(category);
-        if (category in categoryCounts) {
-          categoryCounts[category]++;
-        } else {
-          categoryCounts[category] = 1;
+    
+    if (Array.isArray(data)) {  
+      data.forEach((item) => {  
+        const category = item.category;  
+        categories.add(category);  
+        if (category in categoryCounts) {  
+          categoryCounts[category]++;  
+        } else {  
+          categoryCounts[category] = 1;  
         }
-      });
-    } else {
-      console.error('Invalid data format');
+      });  
+    } else {  
+      console.error('Invalid data format');  
     }
-
-    console.log('Total categories:', categories.size);
-
-    let categoryData = []; // 创建一个空数组
-    for (const category in categoryCounts) {
+    
+    console.log('Total categories:', categories.size);  
+    
+    let categoryData = [];  // 创建一个空数组
+    for (const category in categoryCounts) {  
       let obj = {};
       obj.name = category;
       obj.value = categoryCounts[category];
@@ -65,65 +60,62 @@
       let amount = info.value;
       let ratio = Math.round(info.value / sum * 100, 2);
       return [
-        '名称: &nbsp;' + category + '<br>' +
-        '数量: &nbsp;' + amount + '<br>' +
+        '名称: &nbsp;' + category + '<br>' + 
+        '数量: &nbsp;' + amount + '<br>' + 
         '比例: &nbsp;&nbsp;' + ratio + '%' + '<br>'
       ].join('');
     };
   }
-
+  
   var data_test = getRandomSubarray(json, 1000)
   // var data_test = json
-  var selectedData = data_test.map(function (item) {
-    return {
-      category: item.类别,
-    };
+  var selectedData = data_test.map(function(item) {
+      return {
+          category: item.类别,
+      };
   });
 
   var option = {
     tooltip: {
       formatter: getTooltipFormatter(selectedData)
     },
-    series: [{
-      type: 'treemap',
-      // tooltip: {
-      //   formatter: getTooltipFormatter(selectedData),
-      // },
-      label: {
-        position: 'insideTopLeft',
-        fontSize: 16,
-      },
-      data: countCategories(selectedData),
-    }]
+    series: [
+      {
+        type: 'treemap',
+        // tooltip: {
+        //   formatter: getTooltipFormatter(selectedData),
+        // },
+        label: {
+          position: 'insideTopLeft',
+          fontSize: 16,
+        },
+        data: countCategories(selectedData),
+      }
+    ]
   };
-
+  
   // 3. 把配置项给实例对象
   myChart.setOption(option);
 
   // 4. 让图表跟随屏幕自动的去适应
-  window.addEventListener("resize", function () {
+  window.addEventListener("resize", function() {
     myChart.resize();
   });
 })();
 
 // 尝试利用平行坐标系展示美食的点评数、口味、环境、服务和人均消费
-(function () {
+(function() {
   // 1. 实例化对象
-  var myChart = echarts.init(document.querySelector(".bar2 .chart"), null, {
-    width: 'auto',
-    height: '430px'
-  });
+  var myChart = echarts.init(document.querySelector(".bar2 .chart"), null, { width: 'auto', height: '430px' });
   // 2. 指定配置和数据
   // 随机获取一个指定长度的数组
   function getRandomSubarray(arr, size) {
-    var shuffled = arr.slice(0),
-      i = arr.length,
-      temp, index;
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
     while (i--) {
-      index = Math.floor((i + 1) * Math.random());
-      temp = shuffled[index];
-      shuffled[index] = shuffled[i];
-      shuffled[i] = temp;
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
     }
     return shuffled.slice(0, size);
   }
@@ -134,24 +126,24 @@
     let categories = new Set();
     let selectedCategories = [];
     let categoryCounts = {};
-
-    if (Array.isArray(data)) {
-      data.forEach((item) => {
-        const category = item.category;
-        categories.add(category);
-        if (category in categoryCounts) {
-          categoryCounts[category]++;
-        } else {
-          categoryCounts[category] = 1;
+    
+    if (Array.isArray(data)) {  
+      data.forEach((item) => {  
+        const category = item.category;  
+        categories.add(category);  
+        if (category in categoryCounts) {  
+          categoryCounts[category]++;  
+        } else {  
+          categoryCounts[category] = 1;  
         }
-      });
-    } else {
-      console.error('Invalid data format');
+      });  
+    } else {  
+      console.error('Invalid data format');  
     }
 
     categories.forEach((item) => {
       if (categoryCounts[item] / data.length >= 0.1) {
-        let newData = data.filter(item2 => item2.category === item);
+        let newData = data.filter(item2 => item2.category === item); 
         let obj = {};
         obj.name = item;
         obj.type = 'parallel';
@@ -165,71 +157,50 @@
       }
     })
 
-    return {
-      finalData,
-      selectedCategories
-    };
+    return {finalData, selectedCategories};
   }
 
   // 生成符合parallel的数据结构
   function generateParallelData(data) {
     let parallelData = [];
-
-    if (Array.isArray(data)) {
+    
+    if (Array.isArray(data)) {  
       data.forEach((item) => {
         // 这里限制了评论数小于1000
         if (item.comments <= 1000) {
           let data = [item.comments, item.flavour, item.environment, item.service, item.averageExpanse];
           parallelData.push(data);
         }
-      });
-    } else {
-      console.error('Invalid data format');
+      });  
+    } else {  
+      console.error('Invalid data format');  
     }
-
+    
     return parallelData;
   };
 
   var data_test = getRandomSubarray(json, 100)
   // var data_test = json
-  var selectedData = data_test.map(function (item) {
-    return {
-      category: item.类别,
-      comments: item.点评数,
-      flavour: item.口味,
-      environment: item.环境,
-      service: item.服务,
-      averageExpanse: item.人均消费,
-    };
+  var selectedData = data_test.map(function(item) {
+      return {
+          category: item.类别,
+          comments: item.点评数,
+          flavour: item.口味,
+          environment: item.环境,
+          service: item.服务,
+          averageExpanse: item.人均消费,
+      };
   });
   // 生成占比不小于10%的美食类别对应的数据集
   var result = generateData(selectedData);
 
   var option = {
-    parallelAxis: [{
-        dim: 0,
-        name: '点评数',
-        max: 1000
-      },
-      {
-        dim: 1,
-        name: '口味',
-        max: 10
-      },
-      {
-        dim: 2,
-        name: '环境',
-        max: 10
-      },
-      {
-        dim: 3,
-        name: '服务',
-        max: 10
-      },
-      {
-        dim: 4,
-        name: '人均消费'
-      },
+    parallelAxis: [
+      { dim: 0, name: '点评数', max: 1000 },
+      { dim: 1, name: '口味', max: 10 },
+      { dim: 2, name: '环境', max: 10 },
+      { dim: 3, name: '服务', max: 10 },
+      { dim: 4, name: '人均消费' },
     ],
     legend: {
       bottom: 30,
@@ -255,7 +226,7 @@
   myChart.setOption(option);
 
   // 4. 让图表跟随屏幕自动的去适应
-  window.addEventListener("resize", function () {
+  window.addEventListener("resize", function() {
     myChart.resize();
   });
 })();
@@ -652,62 +623,57 @@
 // })();
 
 // 实现数量前4的美食类别的饼图，展示不同的行政区占比
-(function () {
+(function() {
   // 1. 实例化对象
-  var myChart = echarts.init(document.querySelector(".pie .chart"), null, {
-    width: 'auto',
-    height: '430px'
-  });
+  var myChart = echarts.init(document.querySelector(".pie .chart"), null, { width: 'auto', height: '430px' });
 
   // 2.指定配置
   // 随机获取一个指定长度的数组
   function getRandomSubarray(arr, size) {
-    var shuffled = arr.slice(0),
-      i = arr.length,
-      temp, index;
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
     while (i--) {
-      index = Math.floor((i + 1) * Math.random());
-      temp = shuffled[index];
-      shuffled[index] = shuffled[i];
-      shuffled[i] = temp;
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
     }
     return shuffled.slice(0, size);
   }
 
   // 统计类别数量占比前4的美食类别
-  function countCategories(data) {
-    let categories = new Set();
+  function countCategories (data) {  
+    let categories = new Set();  
     let categoryCounts = {};
-
-    if (Array.isArray(data)) {
-      data.forEach((item) => {
-        const category = item.category;
-        categories.add(category);
-        if (category in categoryCounts) {
-          categoryCounts[category]++;
-        } else {
-          categoryCounts[category] = 1;
+    
+    if (Array.isArray(data)) {  
+      data.forEach((item) => {  
+        const category = item.category;  
+        categories.add(category);  
+        if (category in categoryCounts) {  
+          categoryCounts[category]++;  
+        } else {  
+          categoryCounts[category] = 1;  
         }
-      });
-    } else {
-      console.error('Invalid data format');
+      });  
+    } else {  
+      console.error('Invalid data format');  
     }
 
     // 对categoryCounts按照value值从大到小排序
     // 使用Object.entries()获取键值对数组  
-    let entries = Object.entries(categoryCounts);
-
+    let entries = Object.entries(categoryCounts);  
+      
     // 使用sort()函数对数组进行排序
-    entries.sort((a, b) => b[1] - a[1]);
-
+    entries.sort((a, b) => b[1] - a[1]);  
+      
     // 转换回对象  
-    let sortedCategoryCounts = {};
-    for (let [key, value] of entries) {
+    let sortedCategoryCounts = {};  
+    for (let [key, value] of entries) {  
       sortedCategoryCounts[key] = value;
     }
-
+    
     // 取占比前4的美食类别进行展示
-    let seletedCategories = []; // 创建一个空数组
+    let seletedCategories = [];  // 创建一个空数组
     let entries2 = Object.entries(sortedCategoryCounts);
     for (let i = 0; i < 4; i++) {
       let obj = entries2[i][0];
@@ -720,32 +686,29 @@
     return seletedCategories;
   };
 
-  function countRegions(data) {
-    let regions = data.reduce((accumulator, currentItem) => {
-      if (!accumulator[currentItem.region]) {
-        accumulator[currentItem.region] = 0;
-      }
-      accumulator[currentItem.region]++;
-      return accumulator;
-    }, {});
-
-    let result = Object.keys(regions).map(region => ({
-      name: region,
-      value: regions[region]
-    }));
+  function countRegions (data) {
+    let regions = data.reduce((accumulator, currentItem) => {  
+      if (!accumulator[currentItem.region]) {  
+          accumulator[currentItem.region] = 0;  
+      }  
+        accumulator[currentItem.region]++;  
+        return accumulator;  
+      }, {});
+      
+    let result = Object.keys(regions).map(region => ({name: region, value: regions[region]}));
     return result
   };
-
+  
   var data_test = getRandomSubarray(json, 1000)
   // var data_test = json
-  var selectedData = data_test.map(function (item) {
-    return {
-      category: item.类别,
-      region: item.行政区,
-    };
+  var selectedData = data_test.map(function(item) {
+      return {
+          category: item.类别,
+          region: item.行政区,
+      };
   });
   selectedCategories = countCategories(selectedData);
-
+  
   // 筛选出符合selectedCategories的数据
   var selectedCategoryData = {};
   selectedCategories.forEach(function (category) {
@@ -783,7 +746,8 @@
       top: '5%',
       left: 'center'
     },
-    title: [{
+    title: [
+      {
         subtext: selectedCategories[0],
         left: '25%',
         top: '52%',
@@ -808,7 +772,8 @@
         textAlign: 'center'
       }
     ],
-    series: [{
+    series: [
+      {
         type: 'pie',
         radius: ['30%', '50%'],
         center: ['50%', '50%'],
@@ -817,8 +782,8 @@
         emphasis: emphasis,
         left: 0,
         right: '50%',
-        top: '15%', // 与top的距离
-        bottom: '35%' // 与bottom的距离
+        top: '15%',  // 与top的距离
+        bottom: '35%'  // 与bottom的距离
       },
       {
         type: 'pie',
@@ -862,30 +827,25 @@
   // 3. 把配置给实例对象
   myChart.setOption(option);
   // 4. 让图表跟随屏幕自动的去适应
-  window.addEventListener("resize", function () {
+  window.addEventListener("resize", function() {
     myChart.resize();
   });
 })();
 
 // 饼形图2 地区分布模块
-(function () {
+(function() {
   // 1. 实例化对象
-  var myChart = echarts.init(document.querySelector(".pie2 .chart"), null, {
-    width: 'auto',
-    height: '420px'
-  }, 'dark');
+  var myChart = echarts.init(document.querySelector(".pie2 .chart"), null, { width: 'auto', height: '420px' }, 'dark');
 
   // 2. 指定配置
   // 随机获取一个指定长度的数组
   function getRandomSubarray(arr, size) {
-    var shuffled = arr.slice(0),
-      i = arr.length,
-      temp, index;
+    var shuffled = arr.slice(0), i = arr.length, temp, index;
     while (i--) {
-      index = Math.floor((i + 1) * Math.random());
-      temp = shuffled[index];
-      shuffled[index] = shuffled[i];
-      shuffled[i] = temp;
+        index = Math.floor((i + 1) * Math.random());
+        temp = shuffled[index];
+        shuffled[index] = shuffled[i];
+        shuffled[i] = temp;
     }
     return shuffled.slice(0, size);
   };
@@ -933,7 +893,7 @@
 
   //   return data_set
   // };
-
+  
   // var data_test = getRandomSubarray(json, 1000)
   // // var data_test = json
   // var selectedData = data_test.map(function(item) {
@@ -1008,7 +968,7 @@
   //   ];
   // });
   // var data = selectedData;
-
+  
   // var schema = [
   //   { name: '点评数', index: 0 },
   //   { name: '口味', index: 1 },
@@ -1016,12 +976,12 @@
   //   { name: '服务', index: 3 },
   //   { name: '人均消费', index: 4 }
   // ];
-
+  
   // var fieldIndices = schema.reduce(function (obj, item) {
   //   obj[item.name] = item.index;
   //   return obj;
   // }, {});
-
+  
   // var fieldNames = schema.map(function (item) {
   //   return item.name;
   // });
@@ -1209,40 +1169,26 @@
   // 尝试绘制三维散点图（四个变量可同时展示）
   var app = {};
   var data_test = getRandomSubarray(json, 1000)
-  var selectedData = data_test.map(function (item) {
+  var selectedData = data_test.map(function(item) {
     return [
       parseInt(item.点评数), parseFloat(item.口味), parseFloat(item.环境), parseFloat(item.服务), parseFloat(item.人均消费)
     ];
   });
   var data = selectedData;
-
-  var schema = [{
-      name: '点评数',
-      index: 0
-    },
-    {
-      name: '口味',
-      index: 1
-    },
-    {
-      name: '环境',
-      index: 2
-    },
-    {
-      name: '服务',
-      index: 3
-    },
-    {
-      name: '人均消费',
-      index: 4
-    }
+  
+  var schema = [
+    { name: '点评数', index: 0 },
+    { name: '口味', index: 1 },
+    { name: '环境', index: 2 },
+    { name: '服务', index: 3 },
+    { name: '人均消费', index: 4 }
   ];
-
+  
   var fieldIndices = schema.reduce(function (obj, item) {
     obj[item.name] = item.index;
     return obj;
   }, {});
-
+  
   var fieldNames = schema.map(function (item) {
     return item.name;
   });
@@ -1270,9 +1216,11 @@
       var max = getMaxOnExtent(data);
       if (data) {
         myChart.setOption({
-          visualMap: [{
-            max: max.color / 2
-          }, ],
+          visualMap: [
+            {
+              max: max.color / 2
+            },
+          ],
           xAxis3D: {
             name: config.xAxis3D
           },
@@ -1317,42 +1265,44 @@
 
   var tooltip = {
     trigger: 'item',
-    formatter: function (params) {
+    formatter: function (params) { 
       return [
-        '点评数: &nbsp;' + params.value[3] + '<br>' +
-        '服务: &nbsp;' + params.value[0] + '<br>' +
+        '点评数: &nbsp;' + params.value[3] + '<br>' + 
+        '服务: &nbsp;' + params.value[0] + '<br>' + 
         '口味: &nbsp;' + params.value[1] + '<br>' +
         '环境: &nbsp;' + params.value[2] + '<br>'
-      ].join('')
+      ].join('') 
     }
   };
 
   var option = ({
     tooltip: tooltip,
-    visualMap: [{
-      top: 10,
-      // text: '点评数',
-      // type: 'piecewise',
-      calculable: true,
-      dimension: 3,
-      min: 0,
-      // max: Math.log10(max.color / 2),  // 可以取对数，但效果不一定好
-      max: max.color / 2,
-      inRange: {
-        color: [
-          '#1710c0',
-          '#0b9df0',
-          '#00fea8',
-          '#00ff0d',
-          '#f5f811',
-          '#f09a09',
-          '#fe0300'
-        ]
+    visualMap: [
+      {
+        top: 10,
+        // text: '点评数',
+        // type: 'piecewise',
+        calculable: true,
+        dimension: 3,
+        min: 0,
+        // max: Math.log10(max.color / 2),  // 可以取对数，但效果不一定好
+        max: max.color / 2,
+        inRange: {
+          color: [
+            '#1710c0',
+            '#0b9df0',
+            '#00fea8',
+            '#00ff0d',
+            '#f5f811',
+            '#f09a09',
+            '#fe0300'
+          ]
+        },
+        textStyle: {
+          color: '#fff'
+        }
       },
-      textStyle: {
-        color: '#fff'
-      }
-    }, ],
+    ],
     xAxis3D: {
       name: config.xAxis3D,
       type: 'value'
@@ -1381,240 +1331,180 @@
         // projection: 'orthographic'
       }
     },
-    series: [{
-      type: 'scatter3D',
-      dimensions: [
-        config.xAxis3D,
-        config.yAxis3D,
-        config.yAxis3D,
-        config.color,
-      ],
-      data: data.map(function (item, idx) {
-        return [
-          item[fieldIndices[config.xAxis3D]],
-          item[fieldIndices[config.yAxis3D]],
-          item[fieldIndices[config.zAxis3D]],
-          item[fieldIndices[config.color]],
-          idx
-        ];
-      }),
-      symbolSize: 8,
-      // symbol: 'triangle',
-      itemStyle: {
-        borderWidth: 0.1,
-        borderColor: 'rgba(255,255,255,0.8)'
-      },
-      emphasis: {
+    series: [
+      {
+        type: 'scatter3D',
+        dimensions: [
+          config.xAxis3D,
+          config.yAxis3D,
+          config.yAxis3D,
+          config.color,
+        ],
+        data: data.map(function (item, idx) {
+          return [
+            item[fieldIndices[config.xAxis3D]],
+            item[fieldIndices[config.yAxis3D]],
+            item[fieldIndices[config.zAxis3D]],
+            item[fieldIndices[config.color]],
+            idx
+          ];
+        }),
+        symbolSize: 8,
+        // symbol: 'triangle',
         itemStyle: {
-          color: '#fff'
+          borderWidth: 0.1,
+          borderColor: 'rgba(255,255,255,0.8)'
+        },
+        emphasis: {
+          itemStyle: {
+            color: '#fff'
+          }
         }
       }
-    }]
+    ]
   });
 
   // 3. 把配置给实例对象
   myChart.setOption(option);
-
+  
   // 4. 让图表跟随屏幕自动的去适应
-  window.addEventListener("resize", function () {
+  window.addEventListener("resize", function() {
     myChart.resize();
   });
 })();
 
 // 核心部分，实现美食地图的展示
 (function () {
-  var regionSelect = document.getElementById('region-select');
-  myChart = echarts.init(document.querySelector(".map .chart"));
-
-  function getRandomSubarray(arr, size) {
-    var shuffled = arr.slice(0),
-      i = arr.length,
-      temp, index;
-    while (i--) {
-      index = Math.floor((i + 1) * Math.random());
-      temp = shuffled[index];
-      shuffled[index] = shuffled[i];
-      shuffled[i] = temp;
+    var regionSelect = document.getElementById('region-select');
+    myChart = echarts.init(document.querySelector(".map .chart"));
+    function getRandomSubarray(arr, size) {
+      var shuffled = arr.slice(0), i = arr.length, temp, index;
+      while (i--) {
+          index = Math.floor((i + 1) * Math.random());
+          temp = shuffled[index];
+          shuffled[index] = shuffled[i];
+          shuffled[i] = temp;
+      }
+      return shuffled.slice(0, size);
     }
-    return shuffled.slice(0, size);
-  }
-  var data_test = getRandomSubarray(json, 1000)
-  // var data_test = json
-  var selectedData = data_test.map(function (item) {
-    return {
-      Lng: item.Lng,
-      Lat: item.Lat,
-      口味: item.口味,
-      行政区: item.行政区,
-      服务: item.服务,
-      环境: item.环境,
-      人均消费: item.人均消费,
-
-    };
-  });
-  var regions = [" 宝山区", " 奉贤区", " 虹口区", " 黄浦区", " 嘉定区", " 金山区", " 静安区", " 卢湾区", " 闵行区", " 浦东新区", " 普陀区", " 青浦区", " 松江区", " 徐汇区", " 杨浦区", " 闸北区", " 长宁区"];
-
-
-
-
-
-  // 设置地图为上海地图
-  echarts.registerMap('shanghai', mapdata);
-
-  // 设置散点图配置项
-  var att = '口味';
-  let tooltipNum = 2;
-  if (att === '服务') {
-    tooltipNum = 4;
-  } else if (att === '环境') {
-    tooltipNum = 5;
-  } else if (att === '人均消费') {
-    tooltipNum = 6;
-  }
-
-  var tooltip = {
-    trigger: 'item',
-    formatter: function (params) {
-      return att + ": " + params.value[tooltipNum];
-    }
-  };
-
-  var legend = {
-    orient: "vertical",
-    top: "bottom",
-    left: "right",
-    textStyle: {
-      color: "#fff"
-    },
-    selectedMode: "multiple"
-  };
-  var geo = {
-    map: "shanghai",
-    label: {
-      emphasis: {
-        show: true,
-        color: "#fff"
-      }
-    },
-    // 地图放大了1倍
-    zoom: 1,
-    roam: true,
-    itemStyle: {
-      normal: {
-        // 地图省份的背景颜色
-        areaColor: "rgba(20, 41, 87,0.6)",
-        borderColor: "#195BB9",
-        borderWidth: 1.5
-      },
-      emphasis: {
-        areaColor: "#2B91B7"
-      }
-    }
-  };
-  var option = {
-    // backgroundColor: '#000',
-    tooltip: tooltip,
-    legend: legend,
-    geo: geo,
-    visualMap: [{
-      type: 'piecewise',
-      min: 0,
-      max: 10,
-      top: '70%',
-      calculable: true,
-      left: 'right',
-      inRange: {
-        color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
-      }
-      // inRange: {
-      //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
-      // }
-    }, ],
-    series: [{
-      type: 'effectScatter',
-      coordinateSystem: 'geo',
-      data: selectedData.map(function (item) {
-        return [item.Lng, item.Lat, item.口味];
-      }),
-      symbolSize: 3,
-    }]
-  };
-
-  // 渲染图表
-  myChart.setOption(option);
-  window.addEventListener("resize", function () {
-    myChart.resize();
-  });
-  var regionData = selectedData;
-  window.onload = function () {
-    document.getElementById('region-select').addEventListener('change', function (event) {
-      var region = event.target.value;
-      console.log('用户选择的新政区', region);
-
-      function filterByRegion(region) {
-        return selectedData.filter(function (item) {
-          return item.行政区 === region;
-        });
-      }
-      if (region === '全部') {
-        regionData = selectedData;
-      } else {
-        regionData = filterByRegion(region);
-      }
-      if (att === '人均消费') {
-        var visualMap = [{
-          type: 'piecewise',
-          min: 0,
-          max: 500,
-          top: '70%',
-          calculable: true,
-          left: 'right',
-          inRange: {
-            color: ['#1F3A93', '#7A942E', '#96281B', '#674172', '#3E4A61']
-          },
-          outOfRange: {
-            color: 'yellow'
-          }
-        }, ];
-      } else {
-        var visualMap = [{
-          type: 'piecewise',
-          min: 0,
-          max: 10,
-          top: '70%',
-          calculable: true,
-          left: 'right',
-          inRange: {
-            color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
-          }
-        }, ];
-      }
-      console.log('1:', regionData);
-      myChart.setOption({
-        tooltip: tooltip,
-        legend: legend,
-        geo: geo,
-        visualMap: visualMap,
-        series: [{
-          type: 'effectScatter',
-          coordinateSystem: 'geo',
-          data: regionData.map(function (item) {
-            return [item.Lng, item.Lat, item[att]];
-          }),
-          symbolSize: 3,
-        }]
-      });
+    var data_test = getRandomSubarray(json, 100)
+    // var data_test = json
+    var selectedData = data_test.map(function(item) {
+        return {
+          Lng: item.Lng,
+          Lat: item.Lat,
+          口味: item.口味,
+          行政区: item.行政区,
+          服务: item.服务,
+          环境: item.环境,
+          人均消费: item.人均消费,
+          
+        };
     });
-    document.getElementById('att-select').addEventListener('change', function (event) {
+    var regions = [" 宝山区", " 奉贤区", " 虹口区", " 黄浦区", " 嘉定区", " 金山区", " 静安区", " 卢湾区", " 闵行区", " 浦东新区", " 普陀区", " 青浦区", " 松江区", " 徐汇区", " 杨浦区", " 闸北区", " 长宁区"];
 
-      // 获取用户选择的行政区
-      att = event.target.value;
-      if (att === '人均消费') {
-        var visualMap = [{
+  
+
+
+
+    // 设置地图为上海地图
+    echarts.registerMap('shanghai', mapdata);
+
+    // 设置散点图配置项
+    var att = '口味';
+    let tooltipNum = 2;
+      if (att === '服务') {
+        tooltipNum = 4;
+      } else if (att === '环境') {
+        tooltipNum = 5;
+      } else if (att === '人均消费') {
+        tooltipNum = 6;
+      }
+
+    var tooltip = {
+      trigger: 'item',
+      formatter: function (params) { 
+        return att + ": " + params.value[tooltipNum];
+      }
+    };
+
+    var legend = {
+      orient: "vertical",
+      top: "bottom",
+      left: "right",
+      textStyle: {color: "#fff"},
+      selectedMode: "multiple"
+    };
+    var geo = {
+      map: "shanghai",
+      label: {
+        emphasis: {
+          show: true,
+          color: "#fff"
+        }
+      },
+      // 地图放大了1倍
+      zoom: 1,
+      roam: true,
+      itemStyle: {
+        normal: {
+          // 地图省份的背景颜色
+          areaColor: "rgba(20, 41, 87,0.6)",
+          borderColor: "#195BB9",
+          borderWidth: 1.5
+        },
+        emphasis: {
+          areaColor: "#2B91B7"
+        }
+      }
+    };
+    var option = {
+      // backgroundColor: '#000',
+      tooltip: tooltip,
+      legend: legend,
+      geo: geo,
+      visualMap: [
+        { type: 'piecewise',
+          min: 0,
+          max: 10,
+          top: 'middle',
+          calculable: true,
+          left: 'right',
+          inRange: {
+            color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
+          }
+          // inRange: {
+          //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
+          // }
+        },
+      ],
+      series: [{
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          data: selectedData.map(function(item) {
+              return [item.Lng, item.Lat, item.口味];
+          }),
+          symbolSize: 3,
+      }]
+    };
+
+    // 渲染图表
+    myChart.setOption(option);
+    window.addEventListener("resize", function() {
+      myChart.resize();
+    });
+
+  window.onload = function () {
+      
+
+    var regionData = selectedData;
+    if (att === '人均消费') {
+      var visualMap = [
+        {
           type: 'piecewise',
           min: 0,
           max: 500,
-          top: '70%',
+          top: '70,
           calculable: true,
           left: 'right',
           inRange: {
@@ -1623,40 +1513,84 @@
           outOfRange: {
             color: 'yellow'
           }
-        }, ];
-      } else {
-        var visualMap = [{
+        },
+      ];
+    }
+    else {
+      var visualMap = [
+        {
           type: 'piecewise',
           min: 0,
           max: 10,
-          top: '70%',
+          top: 'middle',
           calculable: true,
           left: 'right',
           inRange: {
             color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
           }
-        }, ];
-      }
-      // 打印用户选择的行政区
-      console.log('用户选择的属性', att);
-      console.log('用户选择的属性值：', selectedData[0][att]);
-      console.log('2:', regionData);
+        },
+      ];
+    }  
+      document.getElementById('region-select').addEventListener('change', function (event){
+        var region = event.target.value;
+        console.log('用户选择的新政区', region);
 
-      // 更新地图的选项
-      myChart.setOption({
-        tooltip: tooltip,
-        legend: legend,
-        geo: geo,
-        visualMap: visualMap,
-        series: [{
-          type: 'effectScatter',
-          coordinateSystem: 'geo',
-          data: regionData.map(function (item) {
-            return [item.Lng, item.Lat, item[att]];
-          }),
-          symbolSize: 3,
-        }]
+        function filterByRegion(region) {
+          return selectedData.filter(function (item) {
+            return item.行政区 === region;
+          });
+        }
+        if (region === '全部') {
+          regionData = selectedData;
+        }
+        else {
+          regionData = filterByRegion(region);
+        }
+        console.log('1:', regionData);
+        myChart.setOption({
+          tooltip: tooltip,
+          legend: legend,
+          geo: geo,
+          visualMap: visualMap,
+          series: [
+            {
+              type: 'effectScatter',
+              coordinateSystem: 'geo',
+              data: regionData.map(function (item) {
+                return [item.Lng, item.Lat, item[att]];
+              }),
+              symbolSize: 3,
+            }
+          ]
+        });
       });
+      document.getElementById('att-select').addEventListener('change', function (event) {
+      
+      // 获取用户选择的行政区
+        att = event.target.value;
+
+      // 打印用户选择的行政区
+        console.log('用户选择的属性', att);
+        console.log('用户选择的属性值：', selectedData[0][att]);
+        console.log('2:', regionData);
+      
+      // 更新地图的选项
+        myChart.setOption({
+          tooltip: tooltip,
+          legend: legend,
+          geo: geo,
+          visualMap: visualMap,
+          series: [
+            {
+              type: 'effectScatter',
+              coordinateSystem: 'geo',
+              data: regionData.map(function (item) {
+                return [item.Lng, item.Lat, item[att]];
+              }),
+              symbolSize: 3,
+            }
+          ]
+        });
 
       // 重新渲染图表
       window.addEventListener("resize", function () {
@@ -1760,6 +1694,6 @@
 //     window.addEventListener("resize", function() {
 //     myChart.resize();
 //   });
-
+    
 //     // console.log(selectedData);
 // })();
