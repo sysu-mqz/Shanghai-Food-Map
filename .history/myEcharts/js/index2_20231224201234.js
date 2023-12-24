@@ -1570,10 +1570,10 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
+            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c']
           },
           outOfRange: {
-            color: 'yellow'
+            color: '#96281B'
           }
         }, ];
       } else {

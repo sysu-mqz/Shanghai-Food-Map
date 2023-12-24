@@ -1570,7 +1570,7 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
+            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c']
           },
           outOfRange: {
             color: 'yellow'
@@ -1618,7 +1618,7 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
+            color: ['#1F3A93', '#7A942E', '#96281B', '#674172', '#3E4A61']
           },
           outOfRange: {
             color: 'yellow'
@@ -1633,7 +1633,7 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
+            color: ['#1F3A93', '#7A942E', '#96281B', '#674172']
           }
         }, ];
       }
@@ -1667,3 +1667,99 @@
   };
 })();
 
+
+// (function () {
+//     myChart = echarts.init(document.querySelector(".map .chart"));
+//     // var data_test = json.slice(0,100)
+//     var data_test = json
+//     var selectedData = data_test.map(function(item) {
+//         return {
+//             口味: item.口味,
+//             Lat: item.Lat,
+//             Lng: item.Lng
+//         };
+//     });
+
+//     // 设置地图为上海地图
+//     echarts.registerMap('shanghai', mapdata);
+
+//     // 设置散点图配置项
+//     var option = {
+//         // backgroundColor: '#000',
+//         tooltip: {
+//             formatter: function(params) {
+//                 return '口味: ' + params.value[2];
+//             }
+//         },
+//         legend: {
+//             orient: "vertical",
+//             top: "bottom",
+//             left: "right",
+//             data: ["宝山","奉贤","虹口"],
+//             textStyle: {
+//             color: "#fff"
+//             },
+//         selectedMode: "multiple"
+//         },
+//         geo: {
+//             map: "shanghai",
+//             label: {
+//                 emphasis: {
+//                     show: true,
+//                     color: "#fff"
+//                 }
+//             },
+//             // 地图放大了1倍
+//             zoom: 1,
+//             roam: true,
+//             itemStyle: {
+//                 normal: {
+//                 // 地图省份的背景颜色
+//                 areaColor: "rgba(20, 41, 87,0.6)",
+//                 borderColor: "#195BB9",
+//                 borderWidth: 1
+//                 },
+//                 emphasis: {
+//                 areaColor: "#2B91B7"
+//                 }
+//             }
+//         },     
+//         visualMap: {
+//             type: 'piecewise',
+//             min: 0,
+//             max: 10,
+//             calculable: true,
+//             inRange: {
+//                 color: ['blue', 'green', 'yellow', 'red']
+//             }
+//             // inRange: {
+//             //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
+//             // }
+//         },
+//         series: [{
+//             type: 'heatmap',
+//             coordinateSystem: 'geo',
+//             label: {
+//                 show: true
+//             },
+//             data: selectedData.map(function(item) {
+//                 return [item.Lng, item.Lat, item.口味];
+//             }),
+//             symbolSize: 1,
+//             emphasis: {
+//                 itemStyle: {
+//                 shadowBlur: 10,
+//                 shadowColor: 'rgba(0, 0, 0, 0.5)'
+//                 }
+//             }
+//         }]
+//     };
+
+//     // 渲染图表
+//     myChart.setOption(option);
+//     window.addEventListener("resize", function() {
+//     myChart.resize();
+//   });
+
+//     // console.log(selectedData);
+// })();

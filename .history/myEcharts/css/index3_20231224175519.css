@@ -20,7 +20,7 @@ header {
   height: 1.25rem;
   background: url(../images/head_bg.png) no-repeat;
   background-color: rgb(255, 255, 255);
-  background-color:#1f075b;
+  background-color:#1f075b
   background-size: 100%;
 }
 header h1 {
