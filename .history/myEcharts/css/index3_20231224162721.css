@@ -12,20 +12,19 @@ li {
   src: url(../font/DS-DIGIT.TTF);
 }
 body {
-  background: url(../images/bg10.jpg) no-repeat top center;
+  background: url(../images/bg7.png) no-repeat top center;
   line-height: 1.15;
 }
 header {
   position: relative;
   height: 1.25rem;
   background: url(../images/head_bg.png) no-repeat;
-  background-color: rgb(255, 255, 255);
-  background-color:#1f075b;
-  background-size: 100%;
+  background-color: azure;
+  background-size: 100% 100%;
 }
 header h1 {
   font-size: 0.475rem;
-  color: #ebe4e4;
+  color: #fff;
   text-align: center;
   line-height: 1rem;
 }
