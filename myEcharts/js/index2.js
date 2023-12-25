@@ -102,26 +102,32 @@
     myChart.resize();
   });
 
-  var regionData = selectedData;
-  window.onload = function () {
+  var regionData = data_test;
+  console.log('第1个selectedData', data_test);
+  document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('region-select').addEventListener('change', function (event) {
       var region = event.target.value;
-      console.log('第1个function用户选择的新政区', region);
+      console.log('第1个function用户选择的新政区', regionData);
 
       function filterByRegion(region) {
-        return selectedData.filter(function (item) {
+        return data_test.filter(function (item) {
           return item.行政区 === region;
         });
       }
       if (region === '全部') {
-        regionData = selectedData;
+        regionData = data_test;
       } else {
         regionData = filterByRegion(region);
       }
-
+      var showdata = regionData.map(function (item) {
+        return {
+          category: item.类别,
+        };
+      });
+      console.log('第1个showdata', showdata);
       var option = {
         tooltip: {
-          formatter: getTooltipFormatter(selectedData)
+          formatter: getTooltipFormatter(regionData)
         },
         series: [{
           type: 'treemap',
@@ -129,19 +135,20 @@
             position: 'insideTopLeft',
             fontSize: 16,
           },
-          data: countCategories(regionData),
+          data: countCategories(showdata),
         }]
       };
 
       // 3. 把配置项给实例对象
       myChart.setOption(option);
-    
+  
       // 重新渲染图表
       window.addEventListener("resize", function () {
         myChart.resize();
       });
     });
-  };
+  });
+
 })();
 
 // 右上角图像：使用平行坐标系展示美食的点评数、口味、环境、服务和人均消费
@@ -839,7 +846,7 @@
 // 核心部分，实现美食地图的展示
 (function () {
   var regionSelect = document.getElementById('region-select');
-  myChart = echarts.init(document.querySelector(".map .chart"), 'vintage');
+  myChart = echarts.init(document.querySelector(".map .chart"), null);
 
   function getRandomSubarray(arr, size) {
     var shuffled = arr.slice(0),
@@ -868,9 +875,6 @@
     };
   });
   var regions = [" 宝山区", " 奉贤区", " 虹口区", " 黄浦区", " 嘉定区", " 金山区", " 静安区", " 卢湾区", " 闵行区", " 浦东新区", " 普陀区", " 青浦区", " 松江区", " 徐汇区", " 杨浦区", " 闸北区", " 长宁区"];
-
-
-
 
 
   // 设置地图为上海地图
@@ -964,7 +968,6 @@
   window.onload = function () {
     document.getElementById('region-select').addEventListener('change', function (event) {
       var region = event.target.value;
-      console.log('用户选择的新政区', region);
 
       function filterByRegion(region) {
         return selectedData.filter(function (item) {
@@ -1004,7 +1007,6 @@
           }
         }, ];
       }
-      console.log('1:', regionData);
       myChart.setOption({
         tooltip: tooltip,
         legend: legend,
@@ -1052,10 +1054,6 @@
           }
         }, ];
       }
-      // 打印用户选择的行政区
-      console.log('用户选择的属性', att);
-      console.log('用户选择的属性值：', selectedData[0][att]);
-      console.log('2:', regionData);
 
       // 更新地图的选项
       myChart.setOption({
