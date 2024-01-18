@@ -1,5 +1,12 @@
 // import * as XLSX from "js/xlsx.full.min.js";
 
+
+var 
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('region-select').addEventListener('change', function (event) {
+
+
+
 // 左上角图像：使用矩形树图展示不同美食的基本情况
 
 (function () {
@@ -1136,6 +1143,7 @@
     }
   };
   var option = {
+    // backgroundColor: '#000',
     tooltip: tooltip,
     legend: legend,
     geo: geo,
@@ -1149,6 +1157,9 @@
       inRange: {
         color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
       }
+      // inRange: {
+      //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
+      // }
     }, ],
     series: [{
       type: 'effectScatter',

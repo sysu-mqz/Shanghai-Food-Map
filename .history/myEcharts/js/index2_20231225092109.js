@@ -1,7 +1,6 @@
 // import * as XLSX from "js/xlsx.full.min.js";
 
 // 左上角图像：使用矩形树图展示不同美食的基本情况
-
 (function () {
   // 1实例化对象
   var myChart = echarts.init(document.querySelector(".bar .chart"), 'vintage', {
@@ -106,44 +105,44 @@
 
   var regionData = selectedData;
   document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('region-select').addEventListener('change', function (event) {
-      var region = event.target.value;
+    document.getElementById('region-select').addEventListener('change', function (event) {
+      var region = event.target.value;
 
-      function filterByRegion(region) {
-        return selectedData.filter(function (item) {
-          return item.region === region;
-        });
-      }
+      function filterByRegion(region) {
+        return selectedData.filter(function (item) {
+          return item.region === region;
+        });
+      }
 
-      if (region === '全部') {
-        regionData = selectedData;
-      } else {
-        regionData = filterByRegion(region);
-      }
+      if (region === '全部') {
+        regionData = selectedData;
+      } else {
+        regionData = filterByRegion(region);
+      }
 
-      var option = {
-        tooltip: {
-          formatter: getTooltipFormatter(regionData)
-        },
-        series: [{
-          type: 'treemap',
-          label: {
-            position: 'insideTopLeft',
-            fontSize: 16,
-          },
-          data: countCategories(regionData),
-        }]
-      };
+      var option = {
+        tooltip: {
+          formatter: getTooltipFormatter(regionData)
+        },
+        series: [{
+          type: 'treemap',
+          label: {
+            position: 'insideTopLeft',
+            fontSize: 16,
+          },
+          data: countCategories(regionData),
+        }]
+      };
 
-      // 3. 把配置项给实例对象
-      myChart.setOption(option);
-
-      // 重新渲染图表
-      window.addEventListener("resize", function () {
-        myChart.resize();
-      });
-    });
-  });
+      // 3. 把配置项给实例对象
+      myChart.setOption(option);
+  
+      // 重新渲染图表
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    });
+  });
 })();
 
 // 右上角图像：使用平行坐标系展示美食的点评数、口味、环境、服务和人均消费
@@ -189,8 +188,8 @@
 
   // 获取某一种美食类别中人均消费和点评数的最大值
   function getMaxValue(data) {
-    let maxValue1 = 0; // 人均消费的最大值
-    let maxValue2 = 0; // 点评数的最大值
+    let maxValue1 = 0;  // 人均消费的最大值
+    let maxValue2 = 0;  // 点评数的最大值
 
     data.forEach((item) => {
       let currentValue1 = parseFloat(item.averageExpanse);
@@ -271,8 +270,8 @@
     };
   }
 
-  var data_test1 = json // 用于判断美食类别占比大于10%
-  var data_test2 = getRandomSubarray(json, 500) // 用于展示图像
+  var data_test1 = json  // 用于判断美食类别占比大于10%
+  var data_test2 = getRandomSubarray(json, 500)  // 用于展示图像
   var selectedData1 = data_test1.map(function (item) {
     return {
       category: item.类别,
@@ -325,31 +324,30 @@
   var option = {
     tooltip: tooltip,
     parallelAxis: [{
-        dim: 0,
-        name: '点评数',
-        max: result.maxComment
-      },
-      {
-        dim: 1,
-        name: '口味',
-        max: 10
-      },
-      {
-        dim: 2,
-        name: '环境',
-        max: 10
-      },
-      {
-        dim: 3,
-        name: '服务',
-        max: 10
-      },
-      {
-        dim: 4,
-        name: '人均消费',
-        max: result.maxAverageExpanse
-      }
-    ],
+      dim: 0,
+      name: '点评数',
+      max: result.maxComment
+    },
+    {
+      dim: 1,
+      name: '口味',
+      max: 10
+    },
+    {
+      dim: 2,
+      name: '环境',
+      max: 10
+    },
+    {
+      dim: 3,
+      name: '服务',
+      max: 10
+    },
+    {
+      dim: 4,
+      name: '人均消费',
+      max: result.maxAverageExpanse
+    }],
     legend: {
       bottom: 25,
       data: result.selectedCategories,
@@ -378,25 +376,25 @@
     document.getElementById('region-select').addEventListener('change', function (event) {
       var region = event.target.value;
 
-      function filterByRegion1(region) {
-        return selectedData1.filter(function (item) {
-          return item.region === region;
-        });
-      }
+      function filterByRegion1(region) {
+        return selectedData1.filter(function (item) {
+          return item.region === region;
+        });
+      }
 
       function filterByRegion2(region) {
-        return selectedData2.filter(function (item) {
-          return item.region === region;
-        });
-      }
+        return selectedData2.filter(function (item) {
+          return item.region === region;
+        });
+      }
 
-      if (region === '全部') {
-        regionData1 = selectedData1;
+      if (region === '全部') {
+        regionData1 = selectedData1;
         regionData2 = selectedData2;
-      } else {
-        regionData1 = filterByRegion1(region);
+      } else {
+        regionData1 = filterByRegion1(region);
         regionData2 = filterByRegion2(region);
-      }
+      }
 
       // 生成占比不小于10%的美食类别对应的数据集
       var result = generateData(regionData1, regionData2);
@@ -404,31 +402,30 @@
       var option = {
         tooltip: tooltip,
         parallelAxis: [{
-            dim: 0,
-            name: '点评数',
-            max: result.maxComment
-          },
-          {
-            dim: 1,
-            name: '口味',
-            max: 10
-          },
-          {
-            dim: 2,
-            name: '环境',
-            max: 10
-          },
-          {
-            dim: 3,
-            name: '服务',
-            max: 10
-          },
-          {
-            dim: 4,
-            name: '人均消费',
-            max: result.maxAverageExpanse
-          }
-        ],
+          dim: 0,
+          name: '点评数',
+          max: result.maxComment
+        },
+        {
+          dim: 1,
+          name: '口味',
+          max: 10
+        },
+        {
+          dim: 2,
+          name: '环境',
+          max: 10
+        },
+        {
+          dim: 3,
+          name: '服务',
+          max: 10
+        },
+        {
+          dim: 4,
+          name: '人均消费',
+          max: result.maxAverageExpanse
+        }],
         legend: {
           bottom: 25,
           data: result.selectedCategories,
@@ -442,15 +439,15 @@
         series: result.finalData,
       };
 
-      // 3. 把配置项给实例对象
-      myChart.setOption(option);
-
-      // 重新渲染图表
-      window.addEventListener("resize", function () {
-        myChart.resize();
-      });
-    });
-  });
+      // 3. 把配置项给实例对象
+      myChart.setOption(option);
+  
+      // 重新渲染图表
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    });
+  });
 })();
 
 // 左下角图像：展示了数量前4的美食类别在各个行政区的分布情况
@@ -585,45 +582,47 @@
       top: '5%',
       left: 'center'
     },
-    title: [{
-        subtext: selectedCategories[0], // 左上角
+    title: [
+      {
+        subtext: selectedCategories[0],  // 左上角
         left: '24%',
         top: '52%',
         textAlign: 'center',
-        subtextStyle: {
+        subtextStyle: {  
           fontSize: 16 // 设置字体大小为16  
         }
       },
       {
-        subtext: selectedCategories[1], // 右上角
+        subtext: selectedCategories[1],  // 右上角
         left: '74%',
         top: '52%',
         textAlign: 'center',
-        subtextStyle: {
+        subtextStyle: {  
           fontSize: 16 // 设置字体大小为16  
         }
       },
       {
-        subtext: selectedCategories[2], // 左下角
+        subtext: selectedCategories[2],  // 左下角
         left: '24%',
         bottom: '5%',
         textAlign: 'center',
-        subtextStyle: {
+        subtextStyle: {  
           fontSize: 16 // 设置字体大小为16  
         }
       },
       {
-        subtext: selectedCategories[3], // 右下角
+        subtext: selectedCategories[3],  // 右下角
         left: '74%',
         bottom: '5%',
         textAlign: 'center',
-        subtextStyle: {
+        subtextStyle: {  
           fontSize: 16 // 设置字体大小为16  
         }
       }
     ],
-    series: [{
-        type: 'pie', // 左上角
+    series: [
+      {
+        type: 'pie',  // 左上角
         radius: ['25%', '45%'],
         center: ['50%', '50%'],
         data: data1,
@@ -635,7 +634,7 @@
         bottom: '32%' // 与bottom的距离
       },
       {
-        type: 'pie', // 右上角
+        type: 'pie',  // 右上角
         radius: ['25%', '45%'],
         center: ['50%', '50%'],
         data: data2,
@@ -647,7 +646,7 @@
         bottom: '32%'
       },
       {
-        type: 'pie', // 左下角
+        type: 'pie',  // 左下角
         radius: ['25%', '45%'],
         center: ['50%', '50%'],
         data: data3,
@@ -659,7 +658,7 @@
         bottom: 0
       },
       {
-        type: 'pie', // 右下角
+        type: 'pie',  // 右下角
         radius: ['25%', '45%'],
         center: ['50%', '50%'],
         data: data4,
@@ -900,20 +899,20 @@
 
   var regionData = data;
   document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('region-select').addEventListener('change', function (event) {
-      var region = event.target.value;
+    document.getElementById('region-select').addEventListener('change', function (event) {
+      var region = event.target.value;
 
-      function filterByRegion(region) {
-        return data.filter(function (item) {
-          return item[5] === region;
-        });
-      }
+      function filterByRegion(region) {
+        return data.filter(function (item) {
+          return item[5] === region;
+        });
+      }
 
-      if (region === '全部') {
-        regionData = data;
-      } else {
-        regionData = filterByRegion(region);
-      }
+      if (region === '全部') {
+        regionData = data;
+      } else {
+        regionData = filterByRegion(region);
+      }
 
       var config = (app.config = {
         xAxis3D: '服务',
@@ -957,7 +956,7 @@
           }
         }
       });
-
+    
       app.configParameters = {};
       ['xAxis3D', 'yAxis3D', 'zAxis3D', 'color'].forEach(function (
         fieldName
@@ -966,10 +965,10 @@
           options: fieldNames
         };
       });
-
+    
       var max = getMaxOnExtent(regionData);
 
-      var option = ({
+      var option = ({
         tooltip: tooltip,
         visualMap: [{
           top: 10,
@@ -1034,24 +1033,22 @@
         }]
       });
 
-      // 3. 把配置项给实例对象
-      myChart.setOption(option);
-
-      // 重新渲染图表
-      window.addEventListener("resize", function () {
-        myChart.resize();
-      });
-    });
-  });
+      // 3. 把配置项给实例对象
+      myChart.setOption(option);
+  
+      // 重新渲染图表
+      window.addEventListener("resize", function () {
+        myChart.resize();
+      });
+    });
+  });
 
 })();
 
 // 核心部分，实现美食地图的展示
 (function () {
   var regionSelect = document.getElementById('region-select');
-  myChart = echarts.init(document.querySelector(".map .chart"),'vintage', {
-    width: 'auto',
-  });
+  myChart = echarts.init(document.querySelector(".map .chart"), null);
 
   function getRandomSubarray(arr, size) {
     var shuffled = arr.slice(0),
@@ -1065,7 +1062,7 @@
     }
     return shuffled.slice(0, size);
   }
-  var data_test = getRandomSubarray(json, 10000)
+  var data_test = getRandomSubarray(json, 1000)
   // var data_test = json
   var selectedData = data_test.map(function (item) {
     return {
@@ -1136,6 +1133,7 @@
     }
   };
   var option = {
+    // backgroundColor: '#000',
     tooltip: tooltip,
     legend: legend,
     geo: geo,
@@ -1147,8 +1145,11 @@
       calculable: true,
       left: 'right',
       inRange: {
-        color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
+        color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
       }
+      // inRange: {
+      //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
+      // }
     }, ],
     series: [{
       type: 'effectScatter',
@@ -1189,7 +1190,7 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
+            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
           },
           outOfRange: {
             color: 'yellow'
@@ -1204,7 +1205,7 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
+            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
           }
         }, ];
       }
@@ -1236,7 +1237,7 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
+            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
           },
           outOfRange: {
             color: 'yellow'
@@ -1251,7 +1252,7 @@
           calculable: true,
           left: 'right',
           inRange: {
-            color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
+            color: ['#1f075b','#7A942E', '#d7ab82','#d87c7c','#96281B']
           }
         }, ];
       }
@@ -1280,3 +1281,4 @@
     });
   };
 })();
+

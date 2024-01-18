@@ -12,7 +12,7 @@ li {
   src: url(../font/DS-DIGIT.TTF);
 }
 body {
-  background: url(../images/bg5.jpg) no-repeat top center;
+  background: url(../images/bg.jpg) no-repeat top center;
   line-height: 1.15;
 }
 header {
@@ -201,19 +201,13 @@ label {
   padding: 5px 10px;
 
 }
-
-.select-module {
-  position: relative;
-  height: 50px;
-}
-
 .map {
   position: relative;
-  height: 8 rem;
+  height: 10.125rem;
 }
 .map .map1 {
-  width: 6.4rem;
-  height: 6.4rem;
+  width: 6.475rem;
+  height: 6.475rem;
   position: absolute;
   top: 50%;
   left: 50%;

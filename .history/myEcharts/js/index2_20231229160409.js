@@ -1136,6 +1136,7 @@
     }
   };
   var option = {
+    // backgroundColor: '#000',
     tooltip: tooltip,
     legend: legend,
     geo: geo,
@@ -1149,6 +1150,7 @@
       inRange: {
         color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
       }
+
     }, ],
     series: [{
       type: 'effectScatter',

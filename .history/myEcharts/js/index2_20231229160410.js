@@ -1136,6 +1136,7 @@
     }
   };
   var option = {
+    // backgroundColor: '#000',
     tooltip: tooltip,
     legend: legend,
     geo: geo,

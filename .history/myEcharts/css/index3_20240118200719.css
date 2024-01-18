@@ -204,16 +204,18 @@ label {
 
 .select-module {
   position: relative;
-  height: 50px;
+  width: 100%;
+  height: 2.7rem;
+  margin-bottom: 20px;
 }
 
 .map {
   position: relative;
-  height: 8 rem;
+  height: rem;
 }
 .map .map1 {
-  width: 6.4rem;
-  height: 6.4rem;
+  width: 6.475rem;
+  height: 6.475rem;
   position: absolute;
   top: 50%;
   left: 50%;

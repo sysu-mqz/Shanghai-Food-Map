@@ -184,36 +184,21 @@ header .showTime {
   line-height: 0.5rem;
   padding-top: 0.125rem;
 }
-select {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 15px;
-  color: #333;
-  background-color: #f8f8f8;
-  margin-right: 20px;
-}
-
-label {
-  margin-right: 10px;
-  font-size: 16px;
-  color: #ffffff;
-  padding: 5px 10px;
-
-}
 
 .select-module {
   position: relative;
+  width: 100%;
   height: 50px;
+  margin-bottom: 20px;
 }
 
 .map {
   position: relative;
-  height: 8 rem;
+  height: 10.125rem;
 }
 .map .map1 {
-  width: 6.4rem;
-  height: 6.4rem;
+  width: 6.475rem;
+  height: 6.475rem;
   position: absolute;
   top: 50%;
   left: 50%;

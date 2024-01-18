@@ -1,7 +1,6 @@
 // import * as XLSX from "js/xlsx.full.min.js";
 
 // 左上角图像：使用矩形树图展示不同美食的基本情况
-
 (function () {
   // 1实例化对象
   var myChart = echarts.init(document.querySelector(".bar .chart"), 'vintage', {
@@ -1049,7 +1048,7 @@
 // 核心部分，实现美食地图的展示
 (function () {
   var regionSelect = document.getElementById('region-select');
-  myChart = echarts.init(document.querySelector(".map .chart"),'vintage', {
+  myChart = echarts.init(document.querySelector(".map .chart"),'v', {
     width: 'auto',
   });
 
@@ -1063,9 +1062,9 @@
       shuffled[index] = shuffled[i];
       shuffled[i] = temp;
     }
-    return shuffled.slice(0, size);
+    return shuffled;
   }
-  var data_test = getRandomSubarray(json, 10000)
+  var data_test = getRandomSubarray(json, 1000)
   // var data_test = json
   var selectedData = data_test.map(function (item) {
     return {
@@ -1136,6 +1135,7 @@
     }
   };
   var option = {
+    // backgroundColor: '#000',
     tooltip: tooltip,
     legend: legend,
     geo: geo,
@@ -1149,6 +1149,9 @@
       inRange: {
         color: ['#1f075b', '#7A942E', '#d7ab82', '#d87c7c', '#96281B']
       }
+      // inRange: {
+      //     color: ['#bdb76b07', '#beb430'] // 可根据口味范围设置颜色
+      // }
     }, ],
     series: [{
       type: 'effectScatter',
